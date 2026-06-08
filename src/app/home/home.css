@@ -68,6 +68,7 @@
 }
 
 .hero-cta {
+	display: inline-block;
 	border: 1px solid rgba(255, 255, 255, 0.7);
 	background: rgba(0, 0, 0, 0.45);
 	color: #fff;
@@ -75,8 +76,9 @@
 	font-size: 0.9rem;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
-	cursor: pointer;
-	transition: background var(--transition-fast), transform var(--transition-fast);
+	text-decoration: none;
+	transition: background var(--transition-fast),
+		transform var(--transition-fast);
 }
 
 .hero-cta:hover {

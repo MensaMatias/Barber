@@ -1,13 +1,13 @@
 <nav class="nav">
-    <h1 class="brand">Barber</h1>
+    <h1 class="brand">BARBER</h1>
     <button class="mobile-toggle" type="button" (click)="toggleMobile($event)" [attr.aria-expanded]="mobileOpen ? 'true' : 'false'" aria-label="Open menu">
         <span aria-hidden="true"></span>
     </button>
     <div class="links">
         <a routerLink="/home" [class.active]="isActive('/home')">Home</a>
+        <a routerLink="/about" [class.active]="isActive('/about')">About</a>
         <a routerLink="/reserve" [class.active]="isActive('/reserve')">Reserve</a>
         <a routerLink="/Products" [class.active]="isActive('/Products')">Products</a>
-        <a routerLink="/about" [class.active]="isActive('/about')">About</a>
     </div>
     <div class="actions" (click)="onMenuAreaClick($event)">
         <div class="menu">
@@ -37,6 +37,7 @@
         <div class="mobile-panel" (click)="onMenuAreaClick($event)">
             <nav class="mobile-links">
                 <a routerLink="/home" [class.active]="isActive('/home')" (click)="toggleMobile($event)">Home</a>
+                <a routerLink="/about" [class.active]="isActive('/about')" (click)="toggleMobile($event)">About</a>
                 <a routerLink="/reserve" [class.active]="isActive('/reserve')" (click)="toggleMobile($event)">Reserve</a>
                 <a routerLink="/services" [class.active]="isActive('/services')" (click)="toggleMobile($event)">Services</a>
             </nav>

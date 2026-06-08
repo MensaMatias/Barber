@@ -1,20 +1,20 @@
 
-.nav {
-    /* Mobile-first base styles: compact header with toggle */
-    background: linear-gradient(90deg, rgba(255, 127, 80, 0.95) 0%, rgba(255, 176, 103, 0.95) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-    box-shadow: var(--shadow-sm);
-    position: relative;
-    z-index: 3;
-    backdrop-filter: blur(6px);
-}   
+    .nav {
+        /* Mobile-first base styles: compact header with toggle */
+        background: linear-gradient(90deg, rgba(255, 127, 80, 0.95) 0%, rgba(255, 176, 103, 0.95) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-4);
+        width: 100%;
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        z-index: 3;
+        backdrop-filter: blur(6px);
+    }   
 
 .brand {
     margin: 0;

@@ -1,0 +1,16 @@
+<div class="register-page">
+    <div class="register-container">
+        <h2 class="register-title">Create Your Account</h2>
+        <form [formGroup]="registerForm">
+            <label for="name">Name</label>
+            <input type="text" formControlName="name" />
+            <label for="email">Email</label>
+            <input type="email" formControlName="email" />
+            <label for="password">Password</label>
+            <input type="password" formControlName="password" />
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" formControlName="RepeatPassword" />
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</div>
