@@ -1,0 +1,29 @@
+
+<div class="auth-page">
+    <div class="auth-container">
+        <button class="back-button" (click)="goBack()">✕</button>
+        <h2 class="auth-title">Welcome login</h2>
+        <form [formGroup]="loginForm">
+             <label for="email">Email</label>
+            <input type="email" id="email" formControlName="email" />
+            @if (email.touched && email.hasError('required')) {
+                <small class="error-message">Email is required</small>
+            }
+            @if (email.touched && email.hasError('email')) {
+                <small class="error-message">Invalid email format e.g. example@domain.com</small>
+            }
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password" />
+            @if (password.touched && password.hasError('required')) {
+                <small class="error-message">Password is required</small>
+            }
+            <button type="submit" [disabled]="loginForm.invalid">Login</button>
+        </form>
+        <p class="auth-link">
+            Don't have an account?
+            <button class="auth-link-button" (click)="goToRegister()">
+                Sign Up
+            </button>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<nav class="nav">
+    <h1 class="brand">BARBER</h1>
+    <button class="mobile-toggle" type="button" (click)="toggleMobile($event)" [attr.aria-expanded]="mobileOpen ? 'true' : 'false'" aria-label="Open menu">
+        <span aria-hidden="true"></span>
+    </button>
+    <div class="links">
+        <a routerLink="/home" [class.active]="isActive('/home')">Home</a>
+        <a routerLink="/about" [class.active]="isActive('/about')">About</a>
+        <a routerLink="/reserve" [class.active]="isActive('/reserve')">Reserve</a>
+        <a routerLink="/products" [class.active]="isActive('/products')">Products</a>
+    </div>
+    <div class="actions" (click)="onMenuAreaClick($event)">
+        <div class="menu">
+            <button type="button" (click)="toggleMenu('contact')" [class.open]="openMenu === 'contact'">Contact</button>
+            @if (openMenu === 'contact') {
+                <div>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+                    <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </div>
+            }   
+        </div>
+
+        <div class="menu">
+            <button type="button" (click)="toggleMenu('account')" [class.open]="openMenu === 'account'">
+                Account
+            </button>
+            @if (openMenu === 'account') {
+                <div>
+                    <a routerLink="/login" (click)="closeMenus()">Login</a>
+                    <a routerLink="/register" (click)="closeMenus()">Register</a>
+                </div>
+            }
+        </div>
+    </div>
+    @if (mobileOpen) {
+        <div class="mobile-panel" (click)="onMenuAreaClick($event)">
+            <nav class="mobile-links">
+                <a routerLink="/home" [class.active]="isActive('/home')" (click)="toggleMobile($event)">Home</a>
+                <a routerLink="/about" [class.active]="isActive('/about')" (click)="toggleMobile($event)">About</a>
+                <a routerLink="/reserve" [class.active]="isActive('/reserve')" (click)="toggleMobile($event)">Reserve</a>
+                <a routerLink="/products" [class.active]="isActive('/products')" (click)="toggleMobile($event)">Products</a>
+            </nav>
+            <section>
+                <h3>contact</h3>
+                <ul>
+                    <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" (click)="toggleMobile($event)">Instagram</a></li>
+                    <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" (click)="toggleMobile($event)">Facebook</a></li>
+                    <li><a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" (click)="toggleMobile($event)">WhatsApp</a></li>
+                </ul>
+            </section>
+            <section>
+                <h3>account</h3>
+                <ul>
+                    <li><a routerLink="/login" (click)="toggleMobile($event)">Login</a></li>
+                    <li><a routerLink="/register" (click)="toggleMobile($event)">Register</a></li>
+                </ul>
+            </section>
+        </div>
+    }
+</nav>

@@ -1,0 +1,138 @@
+:host {
+  display: block;
+  background: #3a2a20;
+}
+
+.products-section {
+  padding: 3rem 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-eyebrow {
+  color: #a87676;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.4rem;
+  text-transform: lowercase;
+}
+
+.title-products {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 500;
+  color: #f5ede6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.section-divider {
+  width: 48px;
+  height: 2px;
+  background: #c87941;
+  margin: 0.75rem auto 0;
+  border-radius: 2px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2.25rem;
+}
+
+.product-item {
+  background: #f9f3ee;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(200, 121, 65, 0.18);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.product-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.product-img-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #e8ddd5;
+}
+
+.product-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-body {
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.3rem;
+}
+
+.product-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(200, 121, 65, 0.14);
+  color: #9a5a2a;
+  letter-spacing: 0.04em;
+}
+
+.product-body h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2a1a10;
+  margin: 0;
+}
+
+.product-body p {
+  font-size: 0.85rem;
+  color: #7a5a48;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #c87941;
+}
+
+.btn-add {
+  background: #3a2a20;
+  color: #f5ede6;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 140ms ease;
+}
+
+.btn-add:hover {
+  background: #c87941;
+}
