@@ -1,0 +1,43 @@
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+
+  padding: 1rem 1.5rem;
+
+  border-radius: 12px;
+
+  color: white;
+
+  font-weight: 600;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,.25);
+
+  z-index: 9999;
+
+  animation: fadeIn .25s ease;
+}
+
+.toast.success {
+  background: #22c55e;
+}
+
+.toast.error {
+  background: #ef4444;
+}
+
+.toast.warning {
+  background: #f59e0b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,85 @@
+<div class="products-section">
+  <div class="filter-bar">
+    <input
+      type="text"
+      placeholder="Search products..."
+      [(ngModel)]="searchQuery"
+      (input)="filterProducts()"
+      class="search-input"
+    />
+    <div class="category-chips">
+      <button [class.active]="selectedCategory === 'all'"       (click)="selectedCategory = 'all';       filterProducts()">All</button>
+      <button [class.active]="selectedCategory === 'pomade'"    (click)="selectedCategory = 'pomade';    filterProducts()">Pomade</button>
+      <button [class.active]="selectedCategory === 'powder'"    (click)="selectedCategory = 'powder';    filterProducts()">Powder</button>
+      <button [class.active]="selectedCategory === 'hairspray'" (click)="selectedCategory = 'hairspray'; filterProducts()">Hairspray</button>
+      <button [class.active]="selectedCategory === 'trimmer'"   (click)="selectedCategory = 'trimmer';   filterProducts()">Trimmer</button>
+    </div>
+  </div>
+
+  <div class="product-list">
+    @for (product of filteredProducts; track product.id) {
+      <div class="product-item">
+        <div class="product-img-wrapper">
+          <img [src]="product.imageUrl" [alt]="product.name" />
+        </div>
+        <div class="product-body">
+          <span class="product-badge">{{ product.category }}</span>
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <div class="product-footer">
+            <span class="product-price">${{ product.price }}</span>
+            <button class="btn-add" (click)="addToCart(product)">+ Add</button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <p class="no-results">No products found.</p>
+    }
+  </div>
+
+  @if ((cartCount$ | async)! > 0) {
+    <button class="cart-fab" (click)="toggleDrawer()">
+      🛒 <span class="cart-fab-badge">{{ cartCount$ | async }}</span>
+    </button>
+  }
+
+  @if (drawerOpen) {
+    <div class="drawer-overlay" (click)="toggleDrawer()"></div>
+  }
+
+  <div class="cart-drawer" [class.open]="drawerOpen">
+    <div class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="drawer-close" (click)="toggleDrawer()">✕</button>
+    </div>
+
+    <div class="drawer-items">
+      @for (item of (cart$ | async)!; track item.id) {
+        <div class="drawer-item">
+          <img [src]="item.imageUrl" [alt]="item.name" />
+          <div class="drawer-item-info">
+            <span class="drawer-item-name">{{ item.name }}</span>
+            <span class="drawer-item-qty">x{{ item.quantity }}</span>
+          </div>
+          <div class="drawer-item-right">
+            <span class="drawer-item-price">${{ item.price * item.quantity }}</span>
+            <div class="drawer-item-actions">
+              <button class="qty-btn"    (click)="decreaseQuantity(item.id)"> - </button>
+              <span>{{ item.quantity }}</span>
+              <button class="qty-btn"    (click)="increaseQuantity(item.id)"> + </button>
+              <button class="delete-btn" (click)="removeFromCart(item.id)">🗑️</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="drawer-footer">
+      <div class="drawer-total">
+        <span>Total</span>
+        <span>${{ cartTotal$ | async }}</span>
+      </div>
+      <button class="drawer-checkout">Checkout</button>
+    </div>
+  </div>
+</div>

@@ -22,7 +22,11 @@
 
   --success:         #10b981;
   --warning:         #f59e0b;
+<<<<<<< HEAD
   --danger:          #ef4444;
+=======
+  --danger:          #b81515;
+>>>>>>> main
   --info:            #3b82f6;
 
   /* Status colors (turnos) */
@@ -79,3 +83,16 @@ body {
     radial-gradient(circle at 90% 12%, #d9fff4 0%, transparent 34%),
     linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
+<<<<<<< HEAD
+=======
+
+body.register-open app-navbar {
+  position: relative;
+  z-index: 0;  
+}
+
+body.login-open app-navbar {
+  position: relative;
+  z-index: 0;  
+}
+>>>>>>> main
