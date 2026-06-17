@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
-
-Component({
-  selector: 'app-products',
-  imports: [],
-  standalone: true,
-  templateUrl: './products.html',
-  styleUrl: './products.css',
-})
+import { Component, inject } from '@angular/core';
+import {AsyncPipe} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {Cart} from "../services/cart";
+import {map} from "rxjs/operators"; 
 
 interface Product {
   id: number;
@@ -18,6 +14,14 @@ interface Product {
   category: string;
 }
 
+@Component({
+  selector: 'app-products',
+  imports: [ FormsModule, AsyncPipe],
+  standalone: true,
+  templateUrl: './products.html',
+  styleUrl: './products.css',
+})
+
 export class Products {
   Products: Product[] = [
     {
@@ -27,7 +31,7 @@ export class Products {
       price: 250,
       imageUrl: '/assets/img/product1.png',
       badge: 'High shine',
-      category: 'Pomade',
+      category: 'pomade',
     },
     {
       id: 2,
@@ -36,7 +40,7 @@ export class Products {
       price: 200,
       imageUrl: '/assets/img/product2.png',
       badge: 'Matte finish',
-      category: 'Powder',
+      category: 'powder',
     },
     {
       id: 3,
@@ -45,7 +49,7 @@ export class Products {
       price: 400,
       imageUrl: '/assets/img/product3.png',
       badge: 'Extra strong hold',
-      category: 'Hairspray',
+      category: 'hairspray',
     },
     {
       id: 4,
@@ -54,21 +58,53 @@ export class Products {
       price: 500,
       imageUrl: '/assets/img/product4.png',
       badge: 'Professional tool',
-      category: 'Trimmer',
+      category: 'trimmer',
     },
   ];
 
   filteredProducts: Product[] = this.Products;
 
-  searchQuerry: string = '';
-
-  selectedCategory: string = 'All';
-
-  filterProducts(): void {
+  filterProducts() {
     this.filteredProducts = this.Products.filter(product => {
-      const matchesCategory = this.selectedCategory === 'All' || product.category === this.selectedCategory;
-      const matchesSearch = product.name.toLowerCase().includes(this.searchQuerry.toLowerCase());
-      return matchesCategory && matchesSearch;
+      const matchesSearch = product.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || product.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const matchesCategory = this.selectedCategory === 'all' || product.category === this.selectedCategory;
+      return matchesSearch && matchesCategory;
     });
   }
+
+  searchQuery: string = '';
+
+  selectedCategory: string = 'all';
+
+  private cart = inject(Cart);
+
+  cart$ = this.cart.cart$;
+
+  cartCount$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.quantity, 0)));
+
+  cartTotal$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.price * item.quantity, 0)));
+
+  drawerOpen = false;
+
+  addToCart(product: Product) {
+    this.cart.addToCart(product);
+  }
+
+  removeFromCart(id: number) {
+    this.cart.removeFromCart(id);
+  }
+
+  toggleDrawer() {
+    this.drawerOpen = !this.drawerOpen;
+  }
+
+  decreaseQuantity(id: number) {
+    this.cart.decreaseQuantity(id);
+  }
+
+  increaseQuantity(id: number) {
+    this.cart.increaseQuantity(id);
+  }
 }
+
+

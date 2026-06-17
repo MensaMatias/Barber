@@ -23,14 +23,23 @@
 
         <div class="menu">
             <button type="button" (click)="toggleMenu('account')" [class.open]="openMenu === 'account'">
-                Account
+               {{ getAccountLabel() }}
             </button>
             @if (openMenu === 'account') {
-                <div>
-                    <a routerLink="/login" (click)="closeMenus()">Login</a>
-                    <a routerLink="/register" (click)="closeMenus()">Register</a>
-                </div>
-            }
+            <div>
+                @if (!isLoggedIn()) {
+                <a routerLink="/login" (click)="closeMenus()">Login</a>
+                <a routerLink="/register" (click)="closeMenus()">Register</a>
+                }
+                @if (isLoggedIn()) {
+                    <div class="user-info">
+                        Signed in as
+                        <strong>{{ auth.getCurrentUser()?.name }}</strong>
+                    </div>
+                    <a (click)="logout()">Logout</a>
+                }
+            </div>
+                }
         </div>
     </div>
     @if (mobileOpen) {
@@ -50,11 +59,28 @@
                 </ul>
             </section>
             <section>
-                <h3>account</h3>
-                <ul>
-                    <li><a routerLink="/login" (click)="toggleMobile($event)">Login</a></li>
-                    <li><a routerLink="/register" (click)="toggleMobile($event)">Register</a></li>
-                </ul>
+                <h3>account</h3>        
+                    <ul>
+                        @if (!isLoggedIn()) {
+                            <li>
+                                <a routerLink="/login" (click)="toggleMobile($event)">
+                                    Login
+                                </a>
+                            </li>
+                            <li>
+                                <a routerLink="/register" (click)="toggleMobile($event)">
+                                    Register
+                                </a>
+                            </li>
+                        }
+                        @if (isLoggedIn()) {
+                            <li>
+                                <a (click)="logout()">
+                                    Logout
+                                </a>
+                            </li>
+                        }
+                    </ul>
             </section>
         </div>
     }

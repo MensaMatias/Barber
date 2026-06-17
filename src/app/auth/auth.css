@@ -190,6 +190,17 @@
   border-bottom-color: currentColor;
 }
 
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
   @keyframes cardEnter {
     from {
       opacity: 0;

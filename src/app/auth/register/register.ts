@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import {Router} from "@angular/router";
+import { Auth } from '../../services/auth';
+import { User } from '../../models/user/user';
+import { ToastService } from '../../services/toast.service';
 
 function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   const pass = group.get('password')?.value;
@@ -25,7 +28,7 @@ export class Register {
   }, { validators: passwordsMatch });
 
   goBack(): void { window.history.back(); }
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: Auth, private toast: ToastService) {}
   goToLogin(): void {
   this.router.navigate(['/login']);
 }
@@ -43,13 +46,30 @@ export class Register {
     document.body.classList.remove('register-open');
   }
 
-  onSubmit() {
-    if (this.registerForm.valid) {
-      // Aquí iría la lógica para enviar los datos al backend
-      console.log('Form Submitted', this.registerForm.value);
-    } else {
-      this.registerForm.markAllAsTouched();
-    }
+  showPassword = false;
+  togglePassword(): void {
+      this.showPassword = !this.showPassword;
   }
+  showRepeatPassword = false;
+  toggleRepeatPassword(): void {
+      this.showRepeatPassword = !this.showRepeatPassword;
+  }
+
+  onSubmit() {
+  if (this.registerForm.valid) {
+
+    const user: User = {
+      name: this.registerForm.value.name!,
+      email: this.registerForm.value.email!,
+      password: this.registerForm.value.password!
+    };
+    this.toast.success('Registration successful');
+    this.auth.register(user);
+    this.router.navigate(['/login']);
+    
+  } else {
+    this.registerForm.markAllAsTouched();
+  }
+}
 
 }
