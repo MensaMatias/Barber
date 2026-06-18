@@ -12,11 +12,7 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.35);
         box-shadow: var(--shadow-sm);
         position: relative;
-<<<<<<< HEAD
-        z-index: 3;
-=======
         z-index: 2;
->>>>>>> main
         backdrop-filter: blur(6px);
     }   
 
@@ -117,11 +113,7 @@
     box-shadow: var(--shadow-md);
     display: grid;
     gap: var(--space-3);
-<<<<<<< HEAD
-    z-index: 40;
-=======
     z-index: 4;
->>>>>>> main
     border-bottom-left-radius: var(--radius-lg);
     border-bottom-right-radius: var(--radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.6);
@@ -284,11 +276,7 @@
     background-color: rgba(255, 255, 255, 0.98);
     border: 1px solid rgba(255, 255, 255, 0.7);
     box-shadow: var(--shadow-md);
-<<<<<<< HEAD
-    z-index: 30;
-=======
     z-index: 3;
->>>>>>> main
     animation: menuPop 140ms ease-out;
 }
 
@@ -318,8 +306,6 @@
     color: var(--accent-hover);
 }
 
-<<<<<<< HEAD
-=======
 .user-info {
     padding: 0.65rem;
     margin-bottom: 0.25rem;
@@ -340,7 +326,6 @@
     font-size: 0.95rem;
 }
 
->>>>>>> main
 /* Larger screens: switch to three-column layout */
 @media (min-width: 860px) {
     .nav {

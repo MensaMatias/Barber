@@ -1,13 +1,9 @@
 import { Routes } from '@angular/router';
 import { Home } from './home/home';
 import { About } from './about/about';
-<<<<<<< HEAD
-import { Register } from './register/register';
-=======
 import { Register } from './auth/register/register';
 import { Login } from './auth/login/login';
 import { Products } from './products/products';
->>>>>>> main
 
 export const routes: Routes = [
     {
@@ -26,8 +22,6 @@ export const routes: Routes = [
     {
         path: 'register',
         component: Register,
-<<<<<<< HEAD
-=======
     },
     {
         path: 'login',
@@ -36,6 +30,5 @@ export const routes: Routes = [
     {
         path: 'products',
         component: Products,
->>>>>>> main
     }
 ];

@@ -7,11 +7,7 @@
         <a routerLink="/home" [class.active]="isActive('/home')">Home</a>
         <a routerLink="/about" [class.active]="isActive('/about')">About</a>
         <a routerLink="/reserve" [class.active]="isActive('/reserve')">Reserve</a>
-<<<<<<< HEAD
-        <a routerLink="/Products" [class.active]="isActive('/Products')">Products</a>
-=======
         <a routerLink="/products" [class.active]="isActive('/products')">Products</a>
->>>>>>> main
     </div>
     <div class="actions" (click)="onMenuAreaClick($event)">
         <div class="menu">
@@ -27,16 +23,6 @@
 
         <div class="menu">
             <button type="button" (click)="toggleMenu('account')" [class.open]="openMenu === 'account'">
-<<<<<<< HEAD
-                Account
-            </button>
-            @if (openMenu === 'account') {
-                <div>
-                    <a routerLink="/login" (click)="closeMenus()">Login</a>
-                    <a routerLink="/register" (click)="closeMenus()">Register</a>
-                </div>
-            }
-=======
                {{ getAccountLabel() }}
             </button>
             @if (openMenu === 'account') {
@@ -54,7 +40,6 @@
                 }
             </div>
                 }
->>>>>>> main
         </div>
     </div>
     @if (mobileOpen) {
@@ -63,11 +48,7 @@
                 <a routerLink="/home" [class.active]="isActive('/home')" (click)="toggleMobile($event)">Home</a>
                 <a routerLink="/about" [class.active]="isActive('/about')" (click)="toggleMobile($event)">About</a>
                 <a routerLink="/reserve" [class.active]="isActive('/reserve')" (click)="toggleMobile($event)">Reserve</a>
-<<<<<<< HEAD
-                <a routerLink="/services" [class.active]="isActive('/services')" (click)="toggleMobile($event)">Services</a>
-=======
                 <a routerLink="/products" [class.active]="isActive('/products')" (click)="toggleMobile($event)">Products</a>
->>>>>>> main
             </nav>
             <section>
                 <h3>contact</h3>
@@ -78,13 +59,6 @@
                 </ul>
             </section>
             <section>
-<<<<<<< HEAD
-                <h3>account</h3>
-                <ul>
-                    <li><a routerLink="/login" (click)="toggleMobile($event)">Login</a></li>
-                    <li><a routerLink="/register" (click)="toggleMobile($event)">Register</a></li>
-                </ul>
-=======
                 <h3>account</h3>        
                     <ul>
                         @if (!isLoggedIn()) {
@@ -107,7 +81,6 @@
                             </li>
                         }
                     </ul>
->>>>>>> main
             </section>
         </div>
     }

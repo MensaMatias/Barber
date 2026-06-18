@@ -1,10 +1,8 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-<<<<<<< HEAD
-=======
 import { Auth } from '../services/auth';
 import { ToastService } from '../services/toast.service';
->>>>>>> main
+
 
 @Component({
   selector: 'app-navbar',
@@ -15,11 +13,8 @@ import { ToastService } from '../services/toast.service';
 })
 export class Navbar {
   private readonly router = inject(Router);
-<<<<<<< HEAD
-=======
   readonly auth = inject(Auth);
   readonly toast = inject(ToastService);
->>>>>>> main
   openMenu: 'contact' | 'account' | null = null;
   mobileOpen = false;
 
@@ -52,8 +47,7 @@ export class Navbar {
     this.closeMenus();
     this.mobileOpen = false;
   }
-<<<<<<< HEAD
-=======
+
 
   isLoggedIn(): boolean {
     return this.auth.isLoggedIn();
@@ -70,5 +64,5 @@ export class Navbar {
     const user = this.auth.getCurrentUser();
     return user ? user.name : 'Account';
   }
->>>>>>> main
+
 }

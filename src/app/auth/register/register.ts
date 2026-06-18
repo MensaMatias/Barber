@@ -63,10 +63,14 @@ export class Register {
       email: this.registerForm.value.email!,
       password: this.registerForm.value.password!
     };
-    this.toast.success('Registration successful');
-    this.auth.register(user);
-    this.router.navigate(['/login']);
-    
+
+    const registered = this.auth.register(user);
+
+    if (registered) {
+      this.toast.success('Registration successful');
+      this.router.navigate(['/login']);
+    }
+
   } else {
     this.registerForm.markAllAsTouched();
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user/user';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,16 +9,21 @@ export class Auth {
   private usersKey = 'users';
   private currentUserKey = 'currentUser';
 
-  constructor() {}
+  constructor(private toastService: ToastService) {}
 
-  register(User: User): void {
-    const users = this.getUsers();
-    if (users.find(u => u.email === User.email)) {
-      throw new Error('User already exists');
-    }
-    users.push(User);
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
+  register(user: User): boolean {
+  const users = this.getUsers();
+
+  if (users.find(u => u.email === user.email)) {
+    this.toastService.error('User already exists');
+    return false;
   }
+
+  users.push(user);
+  localStorage.setItem(this.usersKey, JSON.stringify(users));
+
+  return true;
+}
 
   private getUsers(): User[] {
     return JSON.parse(localStorage.getItem(this.usersKey) || '[]');
@@ -27,9 +33,10 @@ export class Auth {
     const users = this.getUsers();
     const user = users.find(u => u.email === email && u.password === password);
     if (user) {
-      localStorage.setItem(this.currentUserKey, JSON.stringify(user));
+      localStorage.setItem(this.currentUserKey, JSON.stringify(user)); 
       return true;
     }
+    this.toastService.error('Invalid email or password');
     return false;
   }
 

@@ -10,13 +10,10 @@
 	padding: 0 1.5rem;
 }
 
-<<<<<<< HEAD
-=======
 section{
 	animation: fade-up 800ms ease 120ms forwards;
 }
 
->>>>>>> main
 .section-eyebrow {
 	display: inline-block;
 	font-size: 0.75rem;
@@ -36,10 +33,7 @@ section{
 .about-hero {
 	background: linear-gradient(180deg, #1f1c1a 0%, #141210 100%);
 	padding: 5rem 0 4rem;
-<<<<<<< HEAD
-=======
 	/*animation: fade-up 800ms ease 120ms forwards;*/
->>>>>>> main
 }
 
 .hero-grid {
@@ -92,10 +86,7 @@ section{
 .about-section {
 	padding: 4rem 0;
 	background: #181513;
-<<<<<<< HEAD
-=======
 	/*animation: fade-up 800ms ease 120ms forwards;*/
->>>>>>> main
 }
 
 .about-section.story {
@@ -256,8 +247,6 @@ section{
 	color: rgba(255, 255, 255, 0.6);
 }
 
-<<<<<<< HEAD
-=======
 @keyframes fade-up {
 	from {
 		opacity: 0;
@@ -269,7 +258,6 @@ section{
 	}
 }
 
->>>>>>> main
 @media (max-width: 980px) {
 	.hero-grid,
 	.story-grid {
@@ -306,7 +294,3 @@ section{
 		grid-template-columns: 1fr;
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> main
