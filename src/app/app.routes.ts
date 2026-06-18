@@ -4,6 +4,8 @@ import { About } from './about/about';
 import { Register } from './auth/register/register';
 import { Login } from './auth/login/login';
 import { Products } from './products/products';
+import { Reserve} from './reserve/reserve';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -30,5 +32,10 @@ export const routes: Routes = [
     {
         path: 'products',
         component: Products,
+    },
+    {
+        path: 'reserve',
+        component: Reserve,
+        canActivate: [authGuard],
     }
 ];
