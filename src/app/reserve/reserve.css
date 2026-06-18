@@ -1,0 +1,70 @@
+.appointments-section {
+    margin-bottom: 3rem;
+}
+
+.appointment-card {
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 1rem;
+
+    margin-bottom: 1rem;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.appointment-card h3 {
+    margin-top: 0;
+}   
+
+.cancel-btn {
+
+    margin-top: 1rem;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: .7rem 1rem;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    background: #dc2626;
+
+    color: white;
+
+    transition: transform .2s;
+}
+
+.cancel-btn:hover {
+    transform: translateY(-2px);
+}
+
+.reserve-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+label {
+    font-weight: 600;
+}
+
+input,
+select {
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

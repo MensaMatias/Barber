@@ -1,1 +1,49 @@
-<p>reserve works!</p>
+<div class="appointments-selection">
+    <h2>My Appointments</h2>
+    @if (appointments.length === 0) {
+        <p>No appointments found.</p>
+    } @else {
+        @for (appointment of appointments; track appointment.id) {
+            <div class="appointment-card">
+                <h3>{{appointment.service}}</h3>
+                <p>Date: {{appointment.date}}</p>
+                <p>Time: {{appointment.time}}</p>
+                <button class="cancel-btn" (click)="deleteAppointment(appointment.id)">
+                    Cancel Appointment
+                </button>
+            </div>
+        }
+    }
+
+</div>
+
+<div class="reserve-container">
+    <h2>Reserve an Appointment</h2>
+
+    <label for="service">Service:</label>
+    <select id="service" [(ngModel)]="service">
+        <option value="">Select a service</option>
+        <option value="Haircut">Haircut</option>
+        <option value="Beard-trim">Beard Trim</option>
+        <option value="Haircut + Beard">Haircut + Beard</option>
+    </select>
+
+    <label for="date">Date:</label>
+    <input id="date" type="date" [(ngModel)]="date" />
+
+    <label for="time">Time:</label>
+    <select id="time" [(ngModel)]="time">
+        <option value="">Select a time</option>
+        <option value="09:00">09:00 AM</option>
+        <option value="10:00">10:00 AM</option>
+        <option value="11:00">11:00 AM</option>
+        <option value="14:00">14:00 PM</option>
+        <option value="15:00">15:00 PM</option>
+        <option value="16:00">16:00 PM</option>
+        <option value="17:00">17:00 PM</option>
+    </select>
+
+    <button (click)="reserve()">
+        Book Appointment
+    </button>
+</div>
