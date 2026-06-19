@@ -33,7 +33,7 @@ export class AppointmentService {
   deleteAppointment(appointmentId: number): void {
     const appointments = this.getAppointments().filter(appointment => appointment.id !== appointmentId);
     localStorage.setItem(this.appointmentsKey, JSON.stringify(appointments));
-  }
+  } 
 
   isTimeSlotAvailable(date: string, time: string): boolean {
     const appointments = this.getAppointments();

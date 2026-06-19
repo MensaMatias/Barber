@@ -1,47 +1,60 @@
-<div class="appointments-selection">
+<div class="appointments-section">
+
+  <!-- Mis turnos -->
+  <div class="appointments-list-wrapper">
     <h2>My Appointments</h2>
     @if (appointments.length === 0) {
-        <p>No appointments found.</p>
+      <div class="no-appointments">
+        No appointments yet. Book your first one below.
+      </div>
     } @else {
+      <div class="appointments-list">
         @for (appointment of appointments; track appointment.id) {
-            <div class="appointment-card">
-                <h3>{{appointment.service}}</h3>
-                <p>Date: {{appointment.date}}</p>
-                <p>Time: {{appointment.time}}</p>
-                <button class="cancel-btn" (click)="deleteAppointment(appointment.id)">
-                    Cancel Appointment
-                </button>
+          <div class="appointment-card">
+            <h3>{{ appointment.service }}</h3>
+            <div class="appointment-meta">
+              <p>{{ appointment.date }}</p>
+              <p>{{ appointment.time }}</p>
             </div>
+            <button class="cancel-btn" (click)="deleteAppointment(appointment.id)">
+              Cancel
+            </button>
+          </div>
         }
+      </div>
     }
+  </div>
 
-</div>
-
-<div class="reserve-container">
+  <!-- Formulario de reserva -->
+  <div class="reserve-container">
     <h2>Reserve an Appointment</h2>
 
-    <label for="service">Service:</label>
-    <select id="service" [(ngModel)]="service">
+    <div class="form-field">
+      <label for="service">Service</label>
+      <select id="service" [(ngModel)]="service">
         <option value="">Select a service</option>
         <option value="Haircut">Haircut</option>
         <option value="Beard-trim">Beard Trim</option>
         <option value="Haircut + Beard">Haircut + Beard</option>
-    </select>
+      </select>
+    </div>
 
-    <label for="date">Date:</label>
-    <input id="date" type="date" [(ngModel)]="date" [min]="today" (change)="time = ''" />
+    <div class="form-field">
+      <label for="date">Date</label>
+      <input id="date" type="date" [(ngModel)]="date" [min]="today" (change)="time = ''" />
+    </div>
 
-    <label for="time">Time:</label>
-    <select id="time" [(ngModel)]="time">
+    <div class="form-field">
+      <label for="time">Time</label>
+      <select id="time" [(ngModel)]="time">
         <option value="">Select a time</option>
         @for (availableTime of getAvailableTimes(); track availableTime) {
-        <option [value]="availableTime">
-            {{ availableTime }}
-        </option>
-}   
-    </select>
+          <option [value]="availableTime">{{ availableTime }}</option>
+        }
+      </select>
+    </div>
 
-    <button (click)="reserve()">
-        Book Appointment
-    </button>
+    <button class="book-btn" (click)="reserve()">Book Appointment</button>
+  </div>
+
 </div>
