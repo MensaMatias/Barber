@@ -29,18 +29,16 @@
     </select>
 
     <label for="date">Date:</label>
-    <input id="date" type="date" [(ngModel)]="date" />
+    <input id="date" type="date" [(ngModel)]="date" [min]="today" (change)="time = ''" />
 
     <label for="time">Time:</label>
     <select id="time" [(ngModel)]="time">
         <option value="">Select a time</option>
-        <option value="09:00">09:00 AM</option>
-        <option value="10:00">10:00 AM</option>
-        <option value="11:00">11:00 AM</option>
-        <option value="14:00">14:00 PM</option>
-        <option value="15:00">15:00 PM</option>
-        <option value="16:00">16:00 PM</option>
-        <option value="17:00">17:00 PM</option>
+        @for (availableTime of getAvailableTimes(); track availableTime) {
+        <option [value]="availableTime">
+            {{ availableTime }}
+        </option>
+}   
     </select>
 
     <button (click)="reserve()">

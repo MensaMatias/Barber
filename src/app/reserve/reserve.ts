@@ -22,6 +22,21 @@ export class Reserve {
   time: string = '';
 
   reserve() {
+    const appointmentDateTime = new Date(
+  `${this.date}T${this.time}`
+);
+
+const now = new Date();
+
+if (appointmentDateTime <= now) {
+
+  this.toast.error(
+    'You cannot book an appointment in the past'
+  );
+
+  return;
+}
+
     if (!this.service || !this.date || !this.time) {
       this.toast.error('Please fill in all fields');
       return;
@@ -71,5 +86,27 @@ export class Reserve {
       this.appointments = this.appointmentService.getUserAppointments(currentUser.email);
     }
     this.toast.success('Appointment deleted successfully');
+  }
+
+  today = new Date().toISOString().split('T')[0];
+
+  availableTimes: string[] = [
+  '09:00',
+  '10:00',
+  '11:00',
+  '14:00',
+  '15:00',
+  '16:00'
+];
+
+  getAvailableTimes(): string[] {
+    if (!this.date) {
+      return this.availableTimes;
+    }
+    const appointments = this.appointmentService.getAllAppointments();
+
+    const bookedTimes = appointments.filter((appointment: any) => appointment.date === this.date).map((appointment: any) => appointment.time);
+
+    return this.availableTimes.filter(time => !bookedTimes.includes(time));
   }
 }

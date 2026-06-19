@@ -41,4 +41,8 @@ export class AppointmentService {
       (appointment) => appointment.date === date && appointment.time === time
     );  
   }
+
+  getAllAppointments(): Appointment[] {
+  return this.getAppointments();
+}
 }
