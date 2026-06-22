@@ -1,0 +1,10 @@
+<h1>Admin Panel</h1>
+<h2>Appointments</h2>
+@for (appointment of appointments; track appointment.id) {
+    <div class="appointment-card">
+       <h3>{{ appointment.service }}</h3>
+       <p>User: {{ appointment.userEmail }}</p>
+        <p>Date: {{ appointment.date}}</p>
+        <p>Status: {{ appointment.time }}</p>
+    </div>
+}   

@@ -8,6 +8,9 @@
         <a routerLink="/about" [class.active]="isActive('/about')">About</a>
         <a routerLink="/reserve" [class.active]="isActive('/reserve')">Reserve</a>
         <a routerLink="/products" [class.active]="isActive('/products')">Products</a>
+        @if (auth.isAdmin()) {
+            <a routerLink="/admin" [class.active]="isActive('/admin')">Admin</a>
+        }
     </div>
     <div class="actions" (click)="onMenuAreaClick($event)">
         <div class="menu">
@@ -49,6 +52,9 @@
                 <a routerLink="/about" [class.active]="isActive('/about')" (click)="toggleMobile($event)">About</a>
                 <a routerLink="/reserve" [class.active]="isActive('/reserve')" (click)="toggleMobile($event)">Reserve</a>
                 <a routerLink="/products" [class.active]="isActive('/products')" (click)="toggleMobile($event)">Products</a>
+                @if (auth.isAdmin()) {
+                    <a routerLink="/admin" [class.active]="isActive('/admin')" (click)="toggleMobile($event)">Admin</a>
+                }
             </nav>
             <section>
                 <h3>contact</h3>

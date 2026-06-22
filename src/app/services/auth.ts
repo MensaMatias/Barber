@@ -9,7 +9,22 @@ export class Auth {
   private usersKey = 'users';
   private currentUserKey = 'currentUser';
 
-  constructor(private toastService: ToastService) {}
+  constructor(private toastService: ToastService) {
+
+    const users = this.getUsers();
+    const adminExists = users.some(u => u.role === 'admin');
+
+    if (!adminExists) {
+      users.push({
+        name: 'Admin',
+        email: 'admin@barber.com',
+        password: 'admin123',
+        role: 'admin'
+      });
+      localStorage.setItem(this.usersKey, JSON.stringify(users));
+    }
+
+  }
 
   register(user: User): boolean {
   const users = this.getUsers();
@@ -51,5 +66,10 @@ export class Auth {
   getCurrentUser(): User | null {
     const user = localStorage.getItem(this.currentUserKey);
     return user ? JSON.parse(user) : null;
+  }
+
+  isAdmin(): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'admin';
   }
 }
