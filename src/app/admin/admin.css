@@ -1,0 +1,182 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #3a2a20;
+}
+    /* ── Admin Panel ── */
+    .admin-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    }
+
+    /* Encabezado */
+    .admin-header h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: #d4a373;
+    }
+
+    .admin-header p {
+    margin-top: var(--space-2);
+    color: var(--text-secondary);
+    }
+
+    /* Secciones */
+    .admin-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-md);
+    }
+
+    .admin-card h2 {
+    margin: 0 0 var(--space-4) 0;
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--border-subtle);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    }
+
+    /* Buscador */
+    .search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border-default);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-muted);
+    }
+
+    /* Usuarios */
+    .users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+    }
+
+    .user-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    box-shadow: var(--shadow-sm);
+    transition:
+        transform var(--transition-normal),
+        box-shadow var(--transition-normal);
+    }
+
+    .user-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    }
+
+    .user-card h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    }
+
+    .user-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    }
+
+    .user-role {
+    margin-top: var(--space-2);
+    padding: 0.35rem 0.8rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    }
+
+    /* Reservas */
+    .appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    }
+
+    .appointment-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-3);
+    align-items: center;
+    transition:
+        transform var(--transition-normal),
+        box-shadow var(--transition-normal);
+    }
+
+    .appointment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    }
+
+    .appointment-info h3 {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    }
+
+    .appointment-info p {
+    margin: var(--space-1) 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    }
+
+    /* Botón eliminar */
+    .delete-btn {
+    border: none;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--danger);
+    border: 1.5px solid var(--danger);
+    cursor: pointer;
+    font-weight: 600;
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    .delete-btn:hover {
+    background: var(--danger);
+    color: white;
+    transform: translateY(-1px);
+    }
+
+    /* Estado vacío */
+    .empty-state {
+    text-align: center;
+    padding: var(--space-10);
+    color: var(--text-muted);
+    border: 1.5px dashed var(--border-default);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elevated);
+    }   

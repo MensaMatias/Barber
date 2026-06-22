@@ -1,5 +1,9 @@
 /* ── Appointments page ── */
-
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #3a2a20;
+}
 /* Layout general */
 .appointments-section {
   max-width: 780px;
@@ -15,7 +19,7 @@
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #d4a373;
   margin: 0 0 var(--space-4) 0;
   padding-bottom: var(--space-3);
   border-bottom: 2px solid var(--border-subtle);

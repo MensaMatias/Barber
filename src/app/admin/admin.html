@@ -1,10 +1,58 @@
-<h1>Admin Panel</h1>
-<h2>Appointments</h2>
-@for (appointment of appointments; track appointment.id) {
-    <div class="appointment-card">
-       <h3>{{ appointment.service }}</h3>
-       <p>User: {{ appointment.userEmail }}</p>
-        <p>Date: {{ appointment.date}}</p>
-        <p>Status: {{ appointment.time }}</p>
+<div class="admin-section">
+
+    <div class="admin-header">
+        <h1>Admin Panel</h1>
+        <p>Manage users and appointments</p>
     </div>
-}   
+
+    <section class="admin-card">
+        <h2>Appointments</h2>
+        <input
+            class="search-input"
+            type="text"
+            placeholder="Search by email..."
+            [(ngModel)]="searchEmail"
+        />
+
+        <div class="appointments-list">
+            @for (appointment of getFilteredAppointments(); track appointment.id) {
+                <div class="appointment-card">
+                    <div class="appointment-info">
+                        <h3>{{ appointment.service }}</h3>
+                        <p><strong>User:</strong> {{ appointment.userEmail }}</p>
+                        <p><strong>Date:</strong> {{ appointment.date }}</p>
+                        <p><strong>Time:</strong> {{ appointment.time }}</p>
+                    </div>
+                    <button
+                        class="delete-btn"
+                        (click)="deleteAppointment(appointment.id)">
+                        Delete
+                    </button>
+                </div>
+            } @empty {
+                <div class="empty-state">
+                    No appointments found
+                </div>
+            }
+        </div>
+
+    </section>
+    <section class="admin-card">
+        <h2>Users</h2>
+        <div class="users-grid">
+            @for (user of users; track user.email) {
+                <div class="user-card">
+                    <h3>{{ user.name }}</h3>
+                    <p>{{ user.email }}</p>
+                    <span class="user-role">
+                        {{ user.role }}
+                    </span>
+                </div>
+            } @empty {
+                <div class="empty-state">
+                    No users found
+                </div>
+            }
+        </div>
+    </section>
+</div>

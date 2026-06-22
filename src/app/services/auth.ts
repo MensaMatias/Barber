@@ -72,4 +72,8 @@ export class Auth {
     const user = this.getCurrentUser();
     return user?.role === 'admin';
   }
+
+  getAllUsers(): User[] {
+    return this.getUsers();
+  }
 }
