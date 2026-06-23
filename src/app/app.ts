@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { Navbar } from "./navbar/navbar";
 import { Footer } from "./footer/footer";
 import { ToastComponent } from './shared/toast/toast';
+import { SupabaseService } from './services/supabase.service';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +13,8 @@ import { ToastComponent } from './shared/toast/toast';
   styleUrls: ['./app.css'],
 })
 export class App {
+  constructor(private supabaseService: SupabaseService) {
+    this.supabaseService.testConnection();
+  }
   protected readonly title = signal('barber');
 }

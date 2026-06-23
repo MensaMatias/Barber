@@ -1,58 +1,54 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user/user';
 import { ToastService } from './toast.service';
+import { supabase } from './supabase';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
-  private usersKey = 'users';
   private currentUserKey = 'currentUser';
+  
 
   constructor(private toastService: ToastService) {
+  }
 
-    const users = this.getUsers();
-    const adminExists = users.some(u => u.role === 'admin');
-
-    if (!adminExists) {
-      users.push({
-        name: 'Admin',
-        email: 'admin@barber.com',
-        password: 'admin123',
-        role: 'admin'
-      });
-      localStorage.setItem(this.usersKey, JSON.stringify(users));
+  async register(user: User): Promise<void> {
+      const { data: existingUser } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', user.email)
+      .single();
+      
+    if (existingUser) {
+      throw new Error('User already exists');
     }
 
-  }
+    const { error } = await supabase
+      .from('users')
+      .insert([{name: user.name, email: user.email, password: user.password, role: user.role ?? 'customer'}]);
 
-  register(user: User): boolean {
-  const users = this.getUsers();
-
-  if (users.find(u => u.email === user.email)) {
-    this.toastService.error('User already exists');
-    return false;
-  }
-
-  users.push(user);
-  localStorage.setItem(this.usersKey, JSON.stringify(users));
-
-  return true;
-}
-
-  private getUsers(): User[] {
-    return JSON.parse(localStorage.getItem(this.usersKey) || '[]');
-  }
-
-  login(email: string, password: string): boolean {
-    const users = this.getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
-    if (user) {
-      localStorage.setItem(this.currentUserKey, JSON.stringify(user)); 
-      return true;
+    if (error) {
+      throw new Error('Error registering user');
+    } else {
+      this.toastService.success('User registered successfully');
     }
-    this.toastService.error('Invalid email or password');
-    return false;
+  }
+
+  async login(email: string, password: string): Promise<boolean> {
+   const { data:user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .eq('password', password)
+      .single();
+      
+    if (error || !user) {
+      throw new Error('Invalid email or password');
+    }
+
+    localStorage.setItem(this.currentUserKey, JSON.stringify(user));
+    return true;
   }
 
   logout(): void {
@@ -73,7 +69,14 @@ export class Auth {
     return user?.role === 'admin';
   }
 
-  getAllUsers(): User[] {
-    return this.getUsers();
+  async getAllUsers(): Promise<User[]> {
+    const { data, error } = await supabase.from('users').select('*');
+
+    if (error) {
+      console.error('Error fetching users:', error);
+      return [];
+    }
+    
+    return data as User[];
   }
 }

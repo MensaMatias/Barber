@@ -55,7 +55,7 @@ export class Register {
       this.showRepeatPassword = !this.showRepeatPassword;
   }
 
-  onSubmit() {
+async onSubmit() {
   if (this.registerForm.valid) {
 
     const user: User = {
@@ -65,14 +65,18 @@ export class Register {
       role: 'customer'
     };
 
-    const registered = this.auth.register(user);
-
-    if (registered) {
+    try {
+      await this.auth.register(user);
       this.toast.success('Registration successful');
       this.router.navigate(['/login']);
+
+    } 
+    catch (error: any) {
+      this.toast.error(error.message);
     }
 
-  } else {
+  } 
+  else {
     this.registerForm.markAllAsTouched();
   }
 }

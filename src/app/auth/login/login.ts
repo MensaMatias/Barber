@@ -39,30 +39,21 @@ export class Login {
   get email() { return this.loginForm.get('email')!; }
   get password() { return this.loginForm.get('password')!; }
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.loginForm.valid) {
 
-  if (this.loginForm.valid) {
+      const success = await this.auth.login(
+        this.loginForm.value.email!,
+        this.loginForm.value.password!
+      );
 
-    const success = this.auth.login(
-      this.loginForm.value.email!,
-      this.loginForm.value.password!
-    );
-
-    if (success) {
-
-      this.toast.success('Login successful');
-      this.router.navigate(['/']);
+      if (success) {
+        this.toast.success('Login successful');
+        this.router.navigate(['/']);
+      }
 
     } else {
-
-      this.toast.error('Invalid email or password');
-
+      this.loginForm.markAllAsTouched();
     }
-
-  } else {
-
-    this.loginForm.markAllAsTouched();
-
   }
-}
 }
