@@ -1,4 +1,4 @@
-  import { Component, inject } from '@angular/core';
+  import { Component, inject, ChangeDetectorRef } from '@angular/core';
   import {AppointmentService} from "../services/AppointmentService";
   import {Appointment} from "../models/appointment/appointment";
   import { Auth } from '../services/auth';
@@ -7,6 +7,7 @@
 
   @Component({
     selector: 'app-admin',
+    standalone: true,
     imports: [FormsModule],
     templateUrl: './admin.html',
     styleUrl: './admin.css',
@@ -14,14 +15,16 @@
   export class Admin {
     private appointmentService = inject(AppointmentService);
     private auth = inject(Auth);
-    
+    // la vista no se actualiza automáticamente, no encontre la solucion
+    private cdr = inject(ChangeDetectorRef);
+
     appointments: Appointment[] = [];
     users: User[] = [];
     searchEmail: string = '';
 
-    ngOnInit() {
+    async ngOnInit() {
       this.loadAppointments();
-      this.loadUsers();
+      await this.loadUsers();
     }
     
     loadAppointments(): void {
@@ -30,6 +33,7 @@
 
     async loadUsers(): Promise<void> {
       this.users = await this.auth.getAllUsers();
+      this.cdr.detectChanges();
     }
 
     deleteAppointment(appointmentId: number): void {
