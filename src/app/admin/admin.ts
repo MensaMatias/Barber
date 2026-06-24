@@ -23,12 +23,12 @@
     searchEmail: string = '';
 
     async ngOnInit() {
-      this.loadAppointments();
+      await this.loadAppointments();
       await this.loadUsers();
     }
     
-    loadAppointments(): void {
-      this.appointments = this.appointmentService.getAllAppointments();
+    async loadAppointments(): Promise<void> {
+      this.appointments = await this.appointmentService.getAllAppointments();
     }
 
     async loadUsers(): Promise<void> {
@@ -36,9 +36,9 @@
       this.cdr.detectChanges();
     }
 
-    deleteAppointment(appointmentId: number): void {
-      this.appointmentService.deleteAppointment(appointmentId);
-      this.loadAppointments();
+    async deleteAppointment(appointmentId: number): Promise<void> {
+      await this.appointmentService.deleteAppointment(appointmentId);
+      await this.loadAppointments();
     }
 
     getFilteredAppointments(): Appointment[] {

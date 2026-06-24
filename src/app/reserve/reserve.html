@@ -48,7 +48,7 @@
       <label for="time">Time</label>
       <select id="time" [(ngModel)]="time">
         <option value="">Select a time</option>
-        @for (availableTime of getAvailableTimes(); track availableTime) {
+        @for (availableTime of availableTimes; track availableTime) {
           <option [value]="availableTime">{{ availableTime }}</option>
         }
       </select>

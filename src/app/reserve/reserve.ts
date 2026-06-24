@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppointmentService } from '../services/AppointmentService';
 import { Auth } from '../services/auth';
@@ -16,15 +16,17 @@ import { ToastService } from '../services/toast.service';
 export class Reserve {
   private appointmentService = inject(AppointmentService);
   private auth = inject(Auth)
-  private toast = inject(ToastService); 
+  private toast = inject(ToastService);
+  private cdr = inject(ChangeDetectorRef); 
   service: string = '';
   date: string = '';
   time: string = '';
 
-  reserve() {
+  async reserve(): Promise<void> {
     const appointmentDateTime = new Date(
-  `${this.date}T${this.time}`
-);
+  `${this.date}T${this.time}` 
+)
+;
 
 const now = new Date();
 
@@ -54,14 +56,20 @@ if (appointmentDateTime <= now) {
       service: this.service,
     };
 
-    if (!this.appointmentService.isTimeSlotAvailable(this.date, this.time)) {
+    const available =
+      await this.appointmentService.isTimeSlotAvailable(
+        this.date,
+        this.time
+      );
+
+    if (!available) {
       this.toast.error('This time slot is already booked');
       return;
     }
 
-    this.appointmentService.addAppointment(appointment);
+    await this.appointmentService.addAppointment(appointment);
 
-    this.appointments = this.appointmentService.getUserAppointments(currentUser.email);
+    this.appointments = await this.appointmentService.getUserAppointments(currentUser.email);
 
     this.toast.success('Appointment booked successfully');
 
@@ -72,18 +80,23 @@ if (appointmentDateTime <= now) {
 
   appointments: Appointment[] = [];
 
-  ngOnInit(): void {
-    const currentUser = this.auth.getCurrentUser();
+  async ngOnInit(): Promise<void> {
+  const currentUser = this.auth.getCurrentUser();
+
     if (currentUser) {
-      this.appointments = this.appointmentService.getUserAppointments(currentUser.email);
-    } 
+      this.appointments =
+        await this.appointmentService.getUserAppointments(
+          currentUser.email
+        );
+      this.cdr.detectChanges();
+    }
   }
 
-  deleteAppointment(appointmentId: number): void {
-    this.appointmentService.deleteAppointment(appointmentId);
+  async deleteAppointment(appointmentId: number): Promise<void> {
+    await this.appointmentService.deleteAppointment(appointmentId);
     const currentUser = this.auth.getCurrentUser();
     if (currentUser) {
-      this.appointments = this.appointmentService.getUserAppointments(currentUser.email);
+      this.appointments = await this.appointmentService.getUserAppointments(currentUser.email);
     }
     this.toast.success('Appointment deleted successfully');
   }
@@ -98,15 +111,4 @@ if (appointmentDateTime <= now) {
   '15:00',
   '16:00'
 ];
-
-  getAvailableTimes(): string[] {
-    if (!this.date) {
-      return this.availableTimes;
-    }
-    const appointments = this.appointmentService.getAllAppointments();
-
-    const bookedTimes = appointments.filter((appointment: any) => appointment.date === this.date).map((appointment: any) => appointment.time);
-
-    return this.availableTimes.filter(time => !bookedTimes.includes(time));
-  }
 }
