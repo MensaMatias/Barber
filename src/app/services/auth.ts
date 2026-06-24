@@ -35,7 +35,7 @@ export class Auth {
     }
   }
 
-  async login(email: string, password: string): Promise<boolean> {
+  async login(email: string, password: string): Promise<void> {
    const { data:user, error } = await supabase
       .from('users')
       .select('*')
@@ -48,7 +48,6 @@ export class Auth {
     }
 
     localStorage.setItem(this.currentUserKey, JSON.stringify(user));
-    return true;
   }
 
   logout(): void {

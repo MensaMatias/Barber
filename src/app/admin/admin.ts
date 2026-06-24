@@ -15,8 +15,9 @@
   export class Admin {
     private appointmentService = inject(AppointmentService);
     private auth = inject(Auth);
-    // la vista no se actualiza automáticamente, no encontre la solucion
     private cdr = inject(ChangeDetectorRef);
+    // Proyecto sin Zone.js: necesario para refrescar la vista
+    // después de cargar datos asíncronos desde Supabase.
 
     appointments: Appointment[] = [];
     users: User[] = [];

@@ -40,20 +40,24 @@ export class Login {
   get password() { return this.loginForm.get('password')!; }
 
   async onSubmit() {
-    if (this.loginForm.valid) {
-
-      const success = await this.auth.login(
-        this.loginForm.value.email!,
-        this.loginForm.value.password!
-      );
-
-      if (success) {
-        this.toast.success('Login successful');
-        this.router.navigate(['/']);
-      }
-
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
+  if (!this.loginForm.valid) {
+    this.toast.error('Please fill in all fields correctly');
+    return;
   }
+
+  try {
+    await this.auth.login(
+      this.loginForm.value.email!,
+      this.loginForm.value.password!
+    );
+
+    this.toast.success('Login successful');
+    this.router.navigate(['/']);
+
+  } catch (error: any) {
+
+    this.toast.error(error.message);
+
+  }
+}
 }

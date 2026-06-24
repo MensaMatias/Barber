@@ -6,30 +6,15 @@ import { supabase } from './supabase';
   providedIn: 'root',
 })
 export class AppointmentService {
-
-  private appointmentsKey = 'appointments';
-
-  /*private getAppointments(): Appointment[] {
-    return JSON.parse(
-      localStorage.getItem(this.appointmentsKey) || '[]'
-    );
-  }*/
-
   private async getAppointments(): Promise<Appointment[]> {
     const { data, error } = await supabase.from('appointments').select('*');
 
     if (error) {
       console.error('Error fetching appointments:', error);
       return [];
-    }
+    } 
 
-    return (data || []).map(a => ({
-      id: a.id,
-      userEmail: a.userEmail,
-      date: a.date,
-      time: a.time,
-      service: a.service  
-    }))
+    return this.mapAppointments(data || []);
   }
 
   async addAppointment(appointment: Appointment): Promise<void> {
@@ -55,13 +40,7 @@ export class AppointmentService {
       return [];
     }
 
-    return (data || []).map(a => ({
-      id: a.id,
-      userEmail: a.userEmail,
-      date: a.date,
-      time: a.time,
-      service: a.service  
-    }));
+    return this.mapAppointments(data || []);
   }
 
   async deleteAppointment(appointmentId: number): Promise<void> {
@@ -88,4 +67,14 @@ export class AppointmentService {
   async getAllAppointments(): Promise<Appointment[]> {
     return this.getAppointments();
   }
+
+  private mapAppointments(data: any[]): Appointment[] {
+  return data.map(a => ({
+    id: a.id,
+    userEmail: a.userEmail,
+    date: a.date,
+    time: a.time,
+    service: a.service
+  }));
+}
 }
