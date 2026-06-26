@@ -1,59 +1,190 @@
 # Barber
-test
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
 
-## Development server
+A web application developed with Angular for managing a barbershop. It allows users to register, log in, book appointments, and browse available products. It also features an administration panel for managing users and bookings.
 
-To start a local development server, run:
+## Description
 
-```bash
-ng serve
+Barber is a Single Page Application (SPA) designed for managing a modern barbershop. The system allows customers to easily book appointments and view available products, while administrators can monitor bookings and registered users.
+
+The project was developed using a **Mobile First** approach, ensuring a good experience on mobile devices and adapting to larger screens later.
+
+## Main Features
+
+### Users
+
+* New user registration.
+
+* Login.
+
+* Persistent session.
+
+* Differentiated user roles (Customer and Admin).
+
+* Profile management via custom authentication.
+
+### Bookings
+
+* Booking appointments for different services.
+
+* Validation of required fields.
+
+* Past date restriction.
+
+* Validation of available times.
+
+* Prevention of duplicate bookings.
+
+* Appointment cancellation.
+
+* Viewing of user bookings.
+
+### Products
+
+* Barber shop product catalog.
+
+* Product search.
+
+* Filtering by category.
+
+* Responsive design for mobile and desktop devices.
+
+### Administration
+
+* Exclusive administrator panel.
+
+* Viewing of all registered users.
+
+* Viewing of all bookings.
+
+* Search for bookings by email address.
+
+* Booking deletion.
+
+
+## Technologies Used
+
+* Angular 21
+* TypeScript
+* HTML5
+* CSS3
+* Supabase
+* RxJS
+* Angular Router
+* Angular Forms (Reactive Forms and Template Forms)
+
+## Project Architecture
+
+The project is organized using Angular components and services:
+
+* Components: user interface.
+
+* Services: business logic and data access.
+
+* Models: entity definition.
+
+* Guards: path protection based on permissions.
+
+* Supabase: data storage and persistence.
+
+##Database
+
+The application uses Supabase as a backend to store:
+
+### Users
+
+* ID
+* Name
+* Email
+* Password
+* Role
+
+### Reservations
+
+* ID
+* Username/Email
+* Date
+* Time
+* Service
+
+## Installation
+
+Clone the repository:
+
+```Tap:
+`Clone git https://github.com/MensaMatias/Barber.git
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Next to the directory:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```Tap:
+`cd barbero
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Install dependencies:
 
-```bash
-ng generate --help
+```Tap:
+`install npm
 ```
 
-## Building
+Run the project:
 
-To build the project run:
-
-```bash
-ng build
+```Tap:
+`server
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open in the browser:
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```text:
+`http://localhost:4200
 ```
 
-## Running end-to-end tests
+## Implemented features
 
-For end-to-end (e2e) testing, run:
+* Authentication system.
 
-```bash
-ng e2e
-```
+* User roles.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+* Appointment booking.
 
-## Additional Resources
+* Appointment cancellation.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+* Administrative panel.
+
+* User management.
+
+* Appointment management.
+
+* Integration with Supabase.
+
+* Mobile-first responsive design.
+
+* Notifications via Brindis.
+
+* Product catalog.
+
+## Repository
+
+GitHub:
+
+https://github.com/MensaMatias/Barber
+
+## 📸 Screenshots
+
+### Home page
+![Home](/public/assets/img/screenshots/Home.png)
+
+### About
+![About](/public/assets/img/screenshots/About.png)
+
+### Shift management
+![Reserve](/public/assets/img/screenshots/Reserve.png)
+
+### Product catalog
+![Products](/public/assets/img/screenshots/Products.png)
+
+### Administration Panel
+![Admin](/public/assets/img/screenshots/Admin.png)
+
+## Author
+
+Matías Mensa
