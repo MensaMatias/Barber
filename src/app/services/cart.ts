@@ -5,7 +5,7 @@ export interface CartItem {
   id: number;
   name: string;
   price: number;
-  imageUrl: string;
+  imageurl: string;
   quantity: number;
 }
 
@@ -16,7 +16,7 @@ export class Cart {
   private cartItems = new BehaviorSubject<CartItem[]>([]);
   cart$ = this.cartItems.asObservable();
 
-  addToCart(product: { id: number; name: string; price: number; imageUrl: string }) {
+  addToCart(product: { id: number; name: string; price: number; imageurl: string }) {
     const current = this.cartItems.getValue();
     const existing = current.find(item => item.id === product.id);
     if (existing) {

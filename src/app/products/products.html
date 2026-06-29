@@ -20,7 +20,7 @@
     @for (product of filteredProducts; track product.id) {
       <div class="product-item">
         <div class="product-img-wrapper">
-          <img [src]="product.imageUrl" [alt]="product.name" />
+          <img [src]="product.imageurl" [alt]="product.name" />
         </div>
         <div class="product-body">
           <span class="product-badge">{{ product.category }}</span>
@@ -56,7 +56,7 @@
     <div class="drawer-items">
       @for (item of (cart$ | async)!; track item.id) {
         <div class="drawer-item">
-          <img [src]="item.imageUrl" [alt]="item.name" />
+          <img [src]="item.imageurl" [alt]="item.name" />
           <div class="drawer-item-info">
             <span class="drawer-item-name">{{ item.name }}</span>
             <span class="drawer-item-qty">x{{ item.quantity }}</span>

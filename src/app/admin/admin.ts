@@ -29,6 +29,19 @@
     products: Product[] = [];
     searchEmail: string = '';
 
+    editingProduct: boolean = false;
+    showForm: boolean = false;
+    productForm: Product = {
+      id: 0,
+      name: '',
+      description: '',
+      price: 0,
+      imageurl: '',
+      badge: '',
+      category: '',
+      stock: 0
+    };
+
     async ngOnInit() {
       await this.loadAppointments();
       await this.loadUsers();
@@ -67,5 +80,36 @@
       await this.productService.deleteProduct(productId);
       await this.loadProducts();  
       this.toastService.success('Product deleted successfully');
+    }
+
+    editProduct(product: Product): void {
+      this.productForm = { ...product };
+      this.editingProduct = true;
+    }
+
+    async saveProduct(): Promise<void> {
+      if (this.editingProduct) {
+        await this.productService.updateProduct(this.productForm);
+        this.toastService.success('Product updated successfully');
+      } else {
+        await this.productService.addProduct(this.productForm);
+        this.toastService.success('Product added successfully');
+      }
+      this.resetForm();
+      await this.loadProducts();
+    }
+    
+    resetForm(): void {
+      this.editingProduct = false;
+      this.productForm = {
+        id: 0,
+        name: '',
+        description: '',
+        price: 0,
+        imageurl: '',
+        badge: '',
+        category: '',
+        stock: 0
+      };
     }
   }

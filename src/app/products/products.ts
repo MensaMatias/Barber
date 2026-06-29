@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject,ChangeDetectorRef } from '@angular/core';
 import {AsyncPipe} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {Cart} from "../services/cart";
@@ -17,6 +17,7 @@ import {ProductService} from "../services/product.service";
 export class Products {
   private cart = inject(Cart);
   private productService = inject(ProductService);
+  private cdr = inject(ChangeDetectorRef);
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
@@ -34,6 +35,7 @@ export class Products {
     try {
       this.products = await this.productService.getProducts();  
       this.filteredProducts = this.products;
+      this.cdr.detectChanges();
     } catch (error) {
       console.error('Error fetching products:', error);
     }

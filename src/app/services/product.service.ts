@@ -30,7 +30,7 @@ export class ProductService {
 
   async addProduct(product: Product): Promise<void> {
     const { error } = await supabase.from('products').insert([{name: product.name, description: product.description, price: product.price, 
-      imageUrl: product.imageUrl, badge: product.badge, category: product.category, stock: product.stock}]);
+      imageurl: product.imageurl, badge: product.badge, category: product.category, stock: product.stock}]);
 
     if (error) {
       console.error('Error adding product:', error);
@@ -43,7 +43,7 @@ export class ProductService {
       name: product.name,
       description: product.description,
       price: product.price,
-      imageUrl: product.imageUrl,
+      imageurl: product.imageurl,
       badge: product.badge,
       category: product.category,
       stock: product.stock
