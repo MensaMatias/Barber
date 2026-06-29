@@ -55,4 +55,26 @@
             }
         </div>
     </section>
+    <section class="admin-card">
+        <h2>Products</h2>
+        <div class="users-grid">
+            @for (product of products; track product.id) {
+                <div class="user-card">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p>$ {{ product.price }}</p>   
+                    <p>Stock: {{ product.stock }}</p>
+                    <button
+                        class="delete-btn"
+                        (click)="deleteProduct(product.id)">
+                        Delete
+                    </button>
+                </div>
+            } @empty {
+                <div class="empty-state">
+                    No products found
+                </div>
+            }
+        </div>  
+    </section>
 </div>

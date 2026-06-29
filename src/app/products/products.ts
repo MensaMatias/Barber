@@ -3,16 +3,8 @@ import {AsyncPipe} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {Cart} from "../services/cart";
 import {map} from "rxjs/operators"; 
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  badge: string;
-  category: string;
-}
+import {Product} from "../models/products/product";
+import {ProductService} from "../services/product.service";
 
 @Component({
   selector: 'app-products',
@@ -23,86 +15,61 @@ interface Product {
 })
 
 export class Products {
-  Products: Product[] = [
-    {
-      id: 1,
-      name: 'Gloss Pomade',
-      description: 'Classic pomade with a glossy finish and flexible hold.',
-      price: 250,
-      imageUrl: '/assets/img/product1.png',
-      badge: 'High shine',
-      category: 'pomade',
-    },
-    {
-      id: 2,
-      name: 'Powder Snow',
-      description: 'Texturizing powder that adds volume and a natural matte look.',
-      price: 200,
-      imageUrl: '/assets/img/product2.png',
-      badge: 'Matte finish',
-      category: 'powder',
-    },
-    {
-      id: 3,
-      name: 'Extreme Hairspray',
-      description: 'Long-lasting hairspray designed to keep your style in place all day.',
-      price: 400,
-      imageUrl: '/assets/img/product3.png',
-      badge: 'Extra strong hold',
-      category: 'hairspray',
-    },
-    {
-      id: 4,
-      name: 'Detail Trimmer',
-      description: 'Precision trimmer for sharp lines, beard detailing, and clean finishes.', 
-      price: 500,
-      imageUrl: '/assets/img/product4.png',
-      badge: 'Professional tool',
-      category: 'trimmer',
-    },
-  ];
+  private cart = inject(Cart);
+  private productService = inject(ProductService);
 
-  filteredProducts: Product[] = this.Products;
+  products: Product[] = [];
+  filteredProducts: Product[] = [];
 
-  filterProducts() {
-    this.filteredProducts = this.Products.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || product.description.toLowerCase().includes(this.searchQuery.toLowerCase());
-      const matchesCategory = this.selectedCategory === 'all' || product.category === this.selectedCategory;
+  searchQuery: string = '';
+  selectedCategory: string = 'all';
+
+  drawerOpen = false;
+
+  cart$ = this.cart.cart$;
+  cartCount$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.quantity, 0)));
+  cartTotal$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.price * item.quantity, 0)));
+
+  async ngOnInit(): Promise<void> {
+    try {
+      this.products = await this.productService.getProducts();  
+      this.filteredProducts = this.products;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  }
+
+  filterProducts(): void {
+    this.filteredProducts = this.products.filter(product => {
+      const matchesSearch =
+        product.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+
+      const matchesCategory =
+        this.selectedCategory === 'all' ||
+        product.category === this.selectedCategory;
+
       return matchesSearch && matchesCategory;
     });
   }
 
-  searchQuery: string = '';
-
-  selectedCategory: string = 'all';
-
-  private cart = inject(Cart);
-
-  cart$ = this.cart.cart$;
-
-  cartCount$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.quantity, 0)));
-
-  cartTotal$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.price * item.quantity, 0)));
-
-  drawerOpen = false;
-
-  addToCart(product: Product) {
+  addToCart(product: Product): void {
     this.cart.addToCart(product);
   }
 
-  removeFromCart(id: number) {
+  removeFromCart(id: number): void {
     this.cart.removeFromCart(id);
   }
 
-  toggleDrawer() {
+  toggleDrawer(): void {
     this.drawerOpen = !this.drawerOpen;
   }
 
-  decreaseQuantity(id: number) {
+  decreaseQuantity(id: number): void {
     this.cart.decreaseQuantity(id);
   }
 
-  increaseQuantity(id: number) {
+  increaseQuantity(id: number): void {
     this.cart.increaseQuantity(id);
   }
 }

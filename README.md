@@ -106,6 +106,12 @@ The application uses Supabase as a backend to store:
 * Time
 * Service
 
+## Seguridad
+
+La aplicación utiliza Supabase como base de datos.
+
+Se implementó Row Level Security (RLS) para proteger el acceso mediante la API pública de Supabase.
+
 ## Installation
 
 Clone the repository:
