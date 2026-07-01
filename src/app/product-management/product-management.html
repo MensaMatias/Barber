@@ -1,0 +1,155 @@
+<section class="section-card">
+    <h2>Products</h2>
+    <div class="product-grid">
+        @for (product of products; track product.id) {
+            <div class="product-card">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <p>$ {{ product.price }}</p>   
+                <p>Stock: {{ product.stock }}</p>
+                <button
+                    class="edit-btn"
+                    (click)="editProduct(product)">
+                    Edit
+                </button>
+                <button
+                    class="delete-btn"
+                    (click)="deleteProduct(product.id)">
+                    Delete
+                </button>
+            </div>
+        } @empty {
+            <div class="empty-state">
+                No products found
+            </div>
+        }
+    </div>  
+</section>
+
+<section class="section-card product-editor">
+    <div class="editor-header">
+        <div>
+            <h2>{{ editingProduct ? 'Edit Product' : 'New Product' }}</h2>
+            <p>
+                {{ editingProduct
+                    ? 'Update the selected product.'
+                    : 'Create a new product for the catalog.' }}
+            </p>
+        </div>
+
+        @if (editingProduct) {
+            <span class="editing-badge">
+                Editing
+            </span>
+        }
+    </div>
+
+    <form class="product-form" [formGroup]="productForm" (ngSubmit)="saveProduct()">
+        <div class="form-group">
+            <label>Name</label>
+            <input
+                type="text"
+                name="name"
+                formControlName="name">
+            @if (isFieldInvalid('name')) {
+                <span class="error-message">
+                    {{ getFieldError('name') }}
+                </span>
+            }
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+            <input
+                type="number"
+                name="price"
+                formControlName="price"
+                required>
+            @if (isFieldInvalid('price')) {
+                <span class="error-message">
+                    {{ getFieldError('price') }}
+                </span>
+            }
+        </div>
+
+        <div class="form-group full-width">
+            <label>Description</label>
+            <textarea
+                rows="4"
+                name="description"
+                formControlName="description">
+            </textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Stock</label>
+            <input
+                type="number"
+                name="stock"
+                formControlName="stock">
+            @if (isFieldInvalid('stock')) {
+                <span class="error-message">
+                    {{ getFieldError('stock') }}
+                </span>
+            }
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <input
+                type="text"
+                name="category"
+                formControlName="category">
+            @if (isFieldInvalid('category')) {
+                <span class="error-message">
+                    {{ getFieldError('category') }}
+                </span>
+            }
+        </div>
+
+        <div class="form-group">
+            <label>Badge</label>
+            <input
+                type="text"
+                name="badge"
+                formControlName="badge">
+        </div>
+
+        <div class="form-group">
+            <label>Image URL</label>
+            <input
+                type="text"
+                name="imageurl"
+                formControlName="imageurl">
+            @if (isFieldInvalid('imageurl')) {
+                <span class="error-message">
+                    {{ getFieldError('imageurl') }}
+                </span>
+            }
+        </div>
+
+        @if(productForm.get('imageurl')?.value) {
+            <div class="preview">
+                <label>Preview</label>
+                <img [src]="productForm.get('imageurl')?.value" alt="Preview">
+            </div>
+        }
+
+        <div class="form-actions">
+            <button
+                class="save-btn"
+                type="submit">
+                {{ editingProduct ? 'Save Changes' : 'Add Product' }}
+            </button>
+
+            @if (editingProduct) {
+                <button
+                    class="cancel-btn"
+                    type="button"
+                    (click)="resetForm()">
+                    Cancel
+                </button>
+            }
+        </div>
+    </form>
+</section>
