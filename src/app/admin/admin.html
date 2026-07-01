@@ -101,15 +101,19 @@
         }
     </div>
 
-    <form class="product-form" (ngSubmit)="saveProduct()">
+    <form class="product-form" [formGroup]="productForm" (ngSubmit)="saveProduct()">
 
         <div class="form-group">
             <label>Name</label>
             <input
                 type="text"
                 name="name"
-                [(ngModel)]="productForm.name"
-                required>
+                formControlName="name">
+            @if (isFieldInvalid('name')) {
+                <span class="error-message">
+                    {{ getFieldError('name') }}
+                </span>
+            }
         </div>
 
         <div class="form-group">
@@ -117,8 +121,13 @@
             <input
                 type="number"
                 name="price"
-                [(ngModel)]="productForm.price"
+                formControlName="price"
                 required>
+            @if (isFieldInvalid('price')) {
+                <span class="error-message">
+                    {{ getFieldError('price') }}
+                </span>
+            }
         </div>
 
         <div class="form-group full-width">
@@ -126,7 +135,7 @@
             <textarea
                 rows="4"
                 name="description"
-                [(ngModel)]="productForm.description">
+                formControlName="description">
             </textarea>
         </div>
 
@@ -135,8 +144,12 @@
             <input
                 type="number"
                 name="stock"
-                [(ngModel)]="productForm.stock"
-                required>
+                formControlName="stock">
+            @if (isFieldInvalid('stock')) {
+                <span class="error-message">
+                    {{ getFieldError('stock') }}
+                </span>
+            }
         </div>
 
         <div class="form-group">
@@ -144,7 +157,12 @@
             <input
                 type="text"
                 name="category"
-                [(ngModel)]="productForm.category">
+                formControlName="category">
+            @if (isFieldInvalid('category')) {
+                <span class="error-message">
+                    {{ getFieldError('category') }}
+                </span>
+            }
         </div>
 
         <div class="form-group">
@@ -152,7 +170,7 @@
             <input
                 type="text"
                 name="badge"
-                [(ngModel)]="productForm.badge">
+                formControlName="badge">
         </div>
 
         <div class="form-group">
@@ -160,15 +178,20 @@
             <input
                 type="text"
                 name="imageurl"
-                [(ngModel)]="productForm.imageurl">
+                formControlName="imageurl">
+            @if (isFieldInvalid('imageurl')) {
+                <span class="error-message">
+                    {{ getFieldError('imageurl') }}
+                </span>
+            }
         </div>
 
-        @if (productForm.imageurl) {
+        @if(productForm.get('imageurl')?.value) {
             <div class="preview">
                 <label>Preview</label>
 
                 <img
-                    [src]="productForm.imageurl"
+                    [src]="productForm.get('imageurl')?.value"
                     alt="Preview">
             </div>
         }

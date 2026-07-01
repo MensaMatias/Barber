@@ -3,15 +3,16 @@
   import {Appointment} from "../models/appointment/appointment";
   import { Auth } from '../services/auth';
   import { User } from '../models/user/user';
-  import { FormsModule } from '@angular/forms';
+  import { FormsModule,ReactiveFormsModule   } from '@angular/forms';
   import { Product } from '../models/products/product';
   import { ProductService } from '../services/product.service';
   import { ToastService } from '../services/toast.service';
+  import { FormBuilder, Validators } from '@angular/forms';
 
   @Component({
     selector: 'app-admin',
     standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule, ReactiveFormsModule],
     templateUrl: './admin.html',
     styleUrl: './admin.css',
   })
@@ -23,24 +24,14 @@
     // después de cargar datos asíncronos desde Supabase.
     private productService = inject(ProductService);
     private toastService = inject(ToastService);
+    private formBuilder = inject(FormBuilder);
 
     appointments: Appointment[] = [];
     users: User[] = [];
     products: Product[] = [];
     searchEmail: string = '';
-
     editingProduct: boolean = false;
     showForm: boolean = false;
-    productForm: Product = {
-      id: 0,
-      name: '',
-      description: '',
-      price: 0,
-      imageurl: '',
-      badge: '',
-      category: '',
-      stock: 0
-    };
 
     async ngOnInit() {
       await this.loadAppointments();
@@ -82,34 +73,102 @@
       this.toastService.success('Product deleted successfully');
     }
 
+    editingProductId: number | null = null;
+
     editProduct(product: Product): void {
-      this.productForm = { ...product };
       this.editingProduct = true;
-    }
+      this.editingProductId = product.id;
+
+      this.productForm.patchValue({
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageurl: product.imageurl,
+      badge: product.badge,
+      category: product.category,
+      stock: product.stock
+  });
+}
 
     async saveProduct(): Promise<void> {
+      if (this.productForm.invalid) {
+        this.productForm.markAllAsTouched();
+        this.toastService.error('Please fill in all required fields correctly.');
+        return;
+      }
+
+      const product: Product = {
+        id: this.editingProductId ?? 0,
+        ... (this.productForm.value as Omit<Product, 'id'>)
+      } 
+
       if (this.editingProduct) {
-        await this.productService.updateProduct(this.productForm);
+        await this.productService.updateProduct(product);
         this.toastService.success('Product updated successfully');
-      } else {
-        await this.productService.addProduct(this.productForm);
+      } else{
+        await this.productService.addProduct(product);
         this.toastService.success('Product added successfully');
       }
-      this.resetForm();
+      this.resetForm(); 
       await this.loadProducts();
     }
     
     resetForm(): void {
       this.editingProduct = false;
-      this.productForm = {
-        id: 0,
+      this.editingProductId = null;
+      this.productForm.reset({
         name: '',
         description: '',
         price: 0,
         imageurl: '',
         badge: '',
         category: '',
-        stock: 0
-      };
+        stock: 0  
+      })
+    }
+
+    productForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ['', [Validators.maxLength(100)]],
+      price: [0, [Validators.required, Validators.min(1), Validators.max(10000000000)]],
+      imageurl: ['', [Validators.required, Validators.pattern(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))$/)]],
+      badge: [''],
+      category: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      stock: [0, [Validators.required, Validators.min(1), Validators.max(10000000000)]]
+    })
+
+    isFieldInvalid(fieldName: string): boolean {
+      const control = this.productForm.get(fieldName);
+      return !!(control && control.invalid && (control.dirty || control.touched));
+    }
+
+    getFieldError(fieldName: string): string {
+      const control = this.productForm.get(fieldName);
+
+      if (!control || !control.errors) {
+        return '';
+      }
+
+      if (control.errors['required']) {
+        return 'This field is required.';
+      }
+
+      if (control.errors['minlength']) {
+        return `This field must be at least ${control.errors['minlength'].requiredLength} characters long.`;
+      }
+
+      if (control.errors['maxlength']) {
+        return `This field must be no more than ${control.errors['maxlength'].requiredLength} characters long.`;
+      }
+
+      if (control.errors['min']) {
+        return 'This field must be a positive number.';
+      }
+
+      if (control.errors['pattern']) {
+        return 'Please enter a valid image URL. e.g., https://example.com/image.jpg';
+      }
+
+      return 'This field is invalid.';
     }
   }

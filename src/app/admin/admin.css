@@ -97,6 +97,10 @@
     margin: 0;
     font-family: var(--font-display);
     color: var(--text-primary);
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     }
 
     .user-card p {
@@ -325,6 +329,24 @@
 
 .delete-btn {
   width: 100%;
+}
+
+.error-message {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--danger);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.form-group input.ng-invalid.ng-touched,
+.form-group textarea.ng-invalid.ng-touched {
+  border-color: var(--danger);
+}
+
+.form-group input.ng-valid.ng-touched,
+.form-group textarea.ng-valid.ng-touched {
+  border-color: var(--success);
 }
 
 @media (max-width:768px){
