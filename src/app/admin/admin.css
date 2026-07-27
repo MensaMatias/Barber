@@ -35,7 +35,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  padding: var(--space-6);
+  padding: var(--space-8);
   box-shadow: var(--shadow-md);
 }
 
@@ -48,24 +48,6 @@
   color: var(--text-primary);
 }
 
-/* Search */
-
-.search-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  border: 1.5px solid var(--border-default);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-muted);
-}
-
 /* Users */
 
 .users-grid {
@@ -73,6 +55,12 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-5);
   margin-top: var(--space-5);
+}
+
+.users-grid .empty-state {
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .user-card {
@@ -107,52 +95,6 @@
   margin-top: var(--space-2);
   font-size: 1.5rem;
   font-weight: bold;
-}
-
-/* Appointments */
-
-.appointments-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.appointment-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--space-3);
-  align-items: center;
-}
-
-.appointment-info h3 {
-  margin: 0 0 var(--space-2);
-  font-family: var(--font-display);
-}
-
-.appointment-info p {
-  margin: var(--space-1) 0;
-  color: var(--text-secondary);
-}
-
-/* Delete button */
-
-.delete-btn {
-  border: none;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--danger);
-  border: 1.5px solid var(--danger);
-  cursor: pointer;
-}
-
-.delete-btn:hover {
-  background: var(--danger);
-  color: white;
 }
 
 /* Empty state */
