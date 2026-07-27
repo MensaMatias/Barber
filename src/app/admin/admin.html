@@ -4,25 +4,9 @@
         <h1>Admin Panel</h1>
         <p>Manage users and appointments</p>
     </div>
-    
+
     <app-appointments-management />
 
-    <section class="admin-card">
-        <h2>Users</h2>
-        <div class="users-grid">
-            @for (user of users; track user.email) {
-                <div class="user-card">
-                    <h3>{{ user.name }}</h3>
-                    <p>{{ user.email }}</p>
-                    <span class="user-role">
-                        {{ user.role }}
-                    </span>
-                </div>
-            } @empty {
-                <div class="empty-state">
-                    No users found
-                </div>
-            }
-        </div>
-    </section>
-    <app-product-management></app-product-management>
+    <app-user-management />
+
+    <app-product-management />
