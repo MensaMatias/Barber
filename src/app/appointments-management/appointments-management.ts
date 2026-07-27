@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject,ChangeDetectorRef } from '@angular/core';
 import { AppointmentService } from '../services/AppointmentService';
 import { Appointment } from '../models/appointment/appointment';
 import { FormsModule } from '@angular/forms';
@@ -12,15 +12,17 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppointmentsManagement {
    private appointmentService = inject(AppointmentService);
+  private cdr = inject(ChangeDetectorRef); 
   appointments: Appointment[] = [];
   searchEmail: string = '';
-
+  
   async ngOnInit() {
     await this.loadAppointments();
   }
 
    async loadAppointments(): Promise<void> {
     this.appointments = await this.appointmentService.getAllAppointments();
+     this.cdr.detectChanges();
   }
 
    async deleteAppointment(appointmentId: number): Promise<void> {

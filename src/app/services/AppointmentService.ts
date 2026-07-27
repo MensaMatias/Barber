@@ -6,7 +6,46 @@ import { supabase } from './supabase';
   providedIn: 'root',
 })
 export class AppointmentService {
+  
+  private isExpiredAppointment(date: string, time: string): boolean {
+    const appointmentDateTime = new Date(`${date}T${time}`);
+
+    if (Number.isNaN(appointmentDateTime.getTime())) {
+      return false;
+    }
+
+    return appointmentDateTime < new Date();
+  }
+
+  private async purgeExpiredAppointments(): Promise<void> {
+    const { data, error } = await supabase.from('appointments').select('id, date, time');
+
+    if (error) {
+      console.error('Error fetching appointments for cleanup:', error);
+      return;
+    }
+
+    const expiredAppointmentIds = (data || [])
+      .filter(appointment => this.isExpiredAppointment(appointment.date, appointment.time))
+      .map(appointment => appointment.id);
+
+    if (expiredAppointmentIds.length === 0) {
+      return;
+    }
+
+    const { error: deleteError } = await supabase
+      .from('appointments')
+      .delete()
+      .in('id', expiredAppointmentIds);
+
+    if (deleteError) {
+      console.error('Error deleting expired appointments:', deleteError);
+    }
+  }
+
   private async getAppointments(): Promise<Appointment[]> {
+    await this.purgeExpiredAppointments();
+
     const { data, error } = await supabase.from('appointments').select('*');
 
     if (error) {
@@ -33,6 +72,8 @@ export class AppointmentService {
 }
 
   async getUserAppointments(userEmail: string): Promise<Appointment[]> {
+    await this.purgeExpiredAppointments();
+
     const {data, error} = await supabase.from('appointments').select('*').eq('userEmail', userEmail);
 
     if (error) {
@@ -52,6 +93,8 @@ export class AppointmentService {
   }
 
   async isTimeSlotAvailable(date: string, time: string): Promise<boolean> {
+    await this.purgeExpiredAppointments();
+
     const { data, error } = await supabase.from('appointments')
       .select('*')
       .eq('date', date)
