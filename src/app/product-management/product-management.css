@@ -94,6 +94,15 @@ text-overflow: ellipsis;
   transition: all var(--transition-fast);
 }
 
+.edit-btn:disabled,
+.delete-btn:disabled,
+.save-btn:disabled,
+.cancel-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+
 .edit-btn {
   width: 100%;
   margin-top: var(--space-3);

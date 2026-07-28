@@ -41,18 +41,26 @@
 
     <div class="form-field">
       <label for="date">Date</label>
-      <input id="date" type="date" [(ngModel)]="date" [min]="today" (change)="time = ''" />
+      <input id="date" type="date" [(ngModel)]="date" [min]="today" (change)="onDateChange()" />
     </div>
 
-    <div class="form-field">
-      <label for="time">Time</label>
-      <select id="time" [(ngModel)]="time">
-        <option value="">Select a time</option>
-        @for (availableTime of availableTimes; track availableTime) {
-          <option [value]="availableTime">{{ availableTime }}</option>
-        }
-      </select>
-    </div>
+    @if (date) {
+      <div class="form-field">
+        <label for="time">Time</label>
+        <select id="time" [(ngModel)]="time">
+          <option value="">Select a time</option>
+          @for (availableTime of availableTimes; track availableTime) {
+            <option [value]="availableTime" [disabled]="unavailableTimes.includes(availableTime)">
+              {{ availableTime }}{{ unavailableTimes.includes(availableTime) ? ' (Booked)' : '' }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <p class="availability-message" [class.is-loading]="isCheckingAvailability">
+        {{ isCheckingAvailability ? 'Checking availability...' : availabilityMessage }}
+      </p>
+    }
 
     <button class="book-btn" (click)="reserve()">Book Appointment</button>
   </div>

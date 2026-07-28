@@ -45,7 +45,6 @@
 	background: var(--bg-elevated);
 	border: 1px solid var(--border-subtle);
 	border-radius: var(--radius-lg);
-	padding: var(--space-5);
 	display: grid;
 	grid-template-columns: 1fr auto;
 	gap: var(--space-3);
@@ -83,7 +82,6 @@
 
 .empty-state {
 	text-align: center;
-	padding: var(--space-10);
 	color: var(--text-muted);
 	border: 1.5px dashed var(--border-default);
 	border-radius: var(--radius-lg);

@@ -10,7 +10,9 @@ import { ToastService } from '../../services/toast.service';
   styleUrl: './toast.css',
 })
 export class ToastComponent {
-
   toast = inject(ToastService);
 
+  dismiss(): void {
+    this.toast.dismiss();
+  }
 }

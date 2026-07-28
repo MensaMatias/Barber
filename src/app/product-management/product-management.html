@@ -1,32 +1,30 @@
 <section class="section-card">
     <h2>Products</h2>
     <div class="product-grid">
-        @for (product of products; track product.id) {
-            <div class="product-card">
-                <h3>{{ product.name }}</h3>
-                <p>{{ product.description }}</p>
-                <p>$ {{ product.price }}</p>   
-                <p>Stock: {{ product.stock }}</p>
-                <button
-                    class="edit-btn"
-                    (click)="editProduct(product)">
-                    Edit
-                </button>
-                <button
-                    class="delete-btn"
-                    (click)="deleteProduct(product.id)">
-                    Delete
-                </button>
-            </div>
-        } @empty {
-            <div class="empty-state">
-                No products found
-            </div>
+        @if (isLoading) {
+            <div class="empty-state">Loading products…</div>
+        } @else {
+            @for (product of products; track product.id) {
+                <div class="product-card">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p>$ {{ product.price }}</p>
+                    <p>Stock: {{ product.stock }}</p>
+                    <button class="edit-btn" type="button" (click)="editProduct(product)">
+                        Edit
+                    </button>
+                    <button class="delete-btn" type="button" (click)="deleteProduct(product.id)" [disabled]="isSaving">
+                        Delete
+                    </button>
+                </div>
+            } @empty {
+                <div class="empty-state">No products found</div>
+            }
         }
-    </div>  
+    </div>
 </section>
 
-<section class="section-card product-editor">
+<section class="section-card product-editor" #editorSection>
     <div class="editor-header">
         <div>
             <h2>{{ editingProduct ? 'Edit Product' : 'New Product' }}</h2>
@@ -138,15 +136,17 @@
         <div class="form-actions">
             <button
                 class="save-btn"
-                type="submit">
-                {{ editingProduct ? 'Save Changes' : 'Add Product' }}
+                type="submit"
+                [disabled]="isSaving">
+                {{ isSaving ? 'Saving...' : (editingProduct ? 'Save Changes' : 'Add Product') }}
             </button>
 
             @if (editingProduct) {
                 <button
                     class="cancel-btn"
                     type="button"
-                    (click)="resetForm()">
+                    (click)="resetForm()"
+                    [disabled]="isSaving">
                     Cancel
                 </button>
             }

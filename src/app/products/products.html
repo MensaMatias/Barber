@@ -50,7 +50,7 @@
   <div class="cart-drawer" [class.open]="drawerOpen">
     <div class="drawer-header">
       <h3>Your Cart</h3>
-      <button class="drawer-close" (click)="toggleDrawer()">✕</button>
+      <button class="drawer-close" type="button" (click)="toggleDrawer()">✕</button>
     </div>
 
     <div class="drawer-items">
@@ -79,7 +79,7 @@
         <span>Total</span>
         <span>${{ cartTotal$ | async }}</span>
       </div>
-      <button class="drawer-checkout" (click)="checkout()">Checkout</button>
+      <button class="drawer-checkout" type="button" (click)="checkout()">Checkout</button>
     </div>
   </div>
 </div>
@@ -88,16 +88,16 @@
   <div class="modal-overlay">
     <div class="checkout-modal">
       <h2>Confirm Order</h2>
-      <p> Total Items: {{ cartCount$ | async }} </p>
-      <p> Total: ${{ cartTotal$ | async }} </p>
+      <p>You are about to place an order with {{ cartCount$ | async }} item(s).</p>
+      <p>Total: ${{ cartTotal$ | async }}</p>
 
       <div class="modal-actions">
 
-        <button class="save-btn" (click)="confirmOrder()">
+        <button class="save-btn" type="button" (click)="confirmOrder()">
           Confirm
         </button>
 
-        <button class="cancel-btn" (click)="showCheckoutModal = false">
+        <button class="cancel-btn" type="button" (click)="showCheckoutModal = false">
           Cancel
         </button>
       </div>

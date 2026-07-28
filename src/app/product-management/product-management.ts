@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, ChangeDetectorRef, inject, ElementRef, ViewChild } from '@angular/core';
 import { Product } from '../models/products/product';
 import { FormBuilder, ReactiveFormsModule ,Validators } from '@angular/forms';
 import { ProductService } from '../services/product.service';
@@ -13,13 +13,17 @@ import { ToastService } from '../services/toast.service';
 })
 
 export class ProductManagement {
+  @ViewChild('editorSection') editorSection?: ElementRef<HTMLElement>;
+
   products: Product[] = [];
   editingProduct = false;
   editingProductId: number | null = null;
+  isLoading = false;
+  isSaving = false;
 
   private productService = inject(ProductService);
   private toastService = inject(ToastService);
-  private cdr = inject(ChangeDetectorRef); 
+  private cdr = inject(ChangeDetectorRef);
   private formBuilder = inject(FormBuilder);
 
   productForm = this.formBuilder.group({
@@ -64,28 +68,53 @@ export class ProductManagement {
   }
 
   async loadProducts(): Promise<void> {
-    this.products = await this.productService.getProducts();
-    this.cdr.detectChanges();
+    this.isLoading = true;
+
+    try {
+      this.products = await this.productService.getProducts();
+    } catch (error) {
+      console.error('Error loading products:', error);
+      this.products = [];
+      this.toastService.error('Unable to load products right now.');
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
   }
 
   async deleteProduct(productId: number): Promise<void> {
+    this.isLoading = true;
+
+    try {
       await this.productService.deleteProduct(productId);
-      await this.loadProducts();  
+      await this.loadProducts();
       this.toastService.success('Product deleted successfully');
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      this.toastService.error('Unable to delete the product.');
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   editProduct(product: Product): void {
-      this.editingProduct = true;
-      this.editingProductId = product.id;
+    this.editingProduct = true;
+    this.editingProductId = product.id;
 
-      this.productForm.patchValue({
+    this.productForm.patchValue({
       name: product.name,
       description: product.description,
       price: product.price,
       imageurl: product.imageurl,
       badge: product.badge,
       category: product.category,
-      stock: product.stock
+      stock: product.stock,
+    });
+
+    this.cdr.detectChanges();
+    this.editorSection?.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
     });
   }
 
@@ -96,21 +125,31 @@ export class ProductManagement {
       return;
     }
 
+    this.isSaving = true;
+
+    const productData = this.productForm.getRawValue() as Omit<Product, 'id'>;
     const product: Product = {
       id: this.editingProductId ?? 0,
-      ... (this.productForm.value as Omit<Product, 'id'>)
-    } 
+      ...productData,
+    };
 
-    if (this.editingProduct) {
-      await this.productService.updateProduct(product);
-      this.toastService.success('Product updated successfully');
-    } else{
-      await this.productService.addProduct(product);
-      this.toastService.success('Product added successfully');
+    try {
+      if (this.editingProduct) {
+        await this.productService.updateProduct(product);
+        this.toastService.success('Product updated successfully');
+      } else {
+        await this.productService.addProduct(product);
+        this.toastService.success('Product added successfully');
+      }
+
+      this.resetForm();
+      await this.loadProducts();
+    } catch (error) {
+      console.error('Error saving product:', error);
+      this.toastService.error('Unable to save the product right now.');
+    } finally {
+      this.isSaving = false;
     }
-
-    this.resetForm(); 
-    await this.loadProducts();
   }
 
   resetForm(): void {
@@ -123,9 +162,11 @@ export class ProductManagement {
       price: 0,
       imageurl: '',
       badge: '',
-      category: '',       
-      stock: 0  
-    })
+      category: '',
+      stock: 0,
+    });
+    this.productForm.markAsPristine();
+    this.productForm.markAsUntouched();
   }
   
   isFieldInvalid(fieldName: string): boolean {

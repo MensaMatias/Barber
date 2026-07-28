@@ -1,76 +1,146 @@
 :host {
-	display: block;
+  display: block;
 }
 
 .admin-card {
-	background: var(--bg-card);
-	border: 1px solid var(--border-subtle);
-	border-radius: var(--radius-xl);
-	padding: var(--space-8);
-	box-shadow: var(--shadow-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 2px solid var(--border-subtle);
 }
 
 .admin-card h2 {
-	margin: 0 0 var(--space-4);
-	padding-bottom: var(--space-3);
-	border-bottom: 2px solid var(--border-subtle);
-	font-family: var(--font-display);
-	font-size: 1.4rem;
-	color: var(--text-primary);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--text-primary);
+}
+
+.users-count {
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  font-weight: 600;
 }
 
 .users-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-	gap: var(--space-5);
-	margin-top: var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-5);
 }
 
-.users-grid .empty-state {
-	grid-column: 1 / -1;
-	width: 100%;
-	box-sizing: border-box;
+.users-grid .empty-state,
+.users-grid .state-card {
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .user-card {
-	background: var(--bg-elevated);
-	border: 1px solid var(--border-subtle);
-	border-radius: var(--radius-lg);
-	padding: var(--space-6);
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-2);
-	box-shadow: var(--shadow-sm);
-	transition: .2s;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .user-card:hover {
-	transform: translateY(-3px);
-	box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.user-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatar {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
 }
 
 .user-card h3 {
-	margin: 0;
-	font-family: var(--font-display);
-	color: var(--text-primary);
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--text-primary);
 }
 
 .user-card p {
-	margin: 0;
-	color: var(--text-secondary);
+  margin: 0;
+  color: var(--text-secondary);
 }
 
 .user-role {
-	margin-top: var(--space-2);
-	font-size: 1.5rem;
-	font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
+.user-role.admin-role {
+  background: rgba(220, 182, 97, 0.14);
+  color: #e6c36f;
+}
+
+.state-card,
 .empty-state {
-	text-align: center;
-	padding: var(--space-10);
-	color: var(--text-muted);
-	border: 1.5px dashed var(--border-default);
-	border-radius: var(--radius-lg);
-	background: var(--bg-elevated);
+  text-align: center;
+  padding: var(--space-10);
+  color: var(--text-muted);
+  border: 1.5px dashed var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.state-card.error-state {
+  border-color: rgba(255, 107, 107, 0.4);
+  color: #ff9e9e;
+}
+
+@media (max-width: 640px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .users-grid {
+    grid-template-columns: 1fr;
+  }
 }

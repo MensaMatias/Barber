@@ -25,11 +25,18 @@ export class Navbar {
   toggleMobile(event: MouseEvent): void {
     event.stopPropagation();
     this.mobileOpen = !this.mobileOpen;
-    if (this.mobileOpen) this.openMenu = null;
+    if (this.mobileOpen) {
+      this.openMenu = null;
+    }
   }
 
   closeMenus(): void {
     this.openMenu = null;
+  }
+
+  closeAllMenus(): void {
+    this.openMenu = null;
+    this.mobileOpen = false;
   }
 
   isActive(path: string): boolean {
@@ -44,8 +51,7 @@ export class Navbar {
 
   @HostListener('document:click')
   onDocumentClick(): void {
-    this.closeMenus();
-    this.mobileOpen = false;
+    this.closeAllMenus();
   }
 
 
@@ -56,7 +62,7 @@ export class Navbar {
   logout(): void {
     this.auth.logout();
     this.toast.success('Logged out successfully');
-    this.closeMenus();
+    this.closeAllMenus();
     this.router.navigate(['/home']);
   }
 

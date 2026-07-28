@@ -1,5 +1,13 @@
 @if (toast.message$ | async; as toastMessage) {
-  <div class="toast" [class]=" 'toast ' + toastMessage.type ">
-    {{ toastMessage.message }}
+  <div
+    class="toast"
+    [class]="'toast ' + toastMessage.type"
+    [class.is-leaving]="(toast.isLeaving$ | async) ?? false"
+    role="status"
+    aria-live="polite"
+    (click)="dismiss()"
+  >
+    <span class="toast-icon" aria-hidden="true">{{ toastMessage.type === 'success' ? '✓' : '✕' }}</span>
+    <span class="toast-message">{{ toastMessage.message }}</span>
   </div>
 }

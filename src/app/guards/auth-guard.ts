@@ -10,9 +10,11 @@ export const authGuard: CanActivateFn = () => {
 
   if (auth.isLoggedIn()) {
     return true;
-  } else {
-    toast.error('You must be logged in to book an appointment');
-    router.navigate(['/login']);
-    return false;
-  } 
+  }
+
+  toast.error('You must be logged in to access this page.');
+  router.navigate(['/login'], {
+    queryParams: { returnUrl: router.url },
+  });
+  return false;
 };

@@ -85,6 +85,13 @@ export class Products {
   }
 
   async checkout(): Promise<void> {
+    const cartItems = await firstValueFrom(this.cart.cart$);
+
+    if (cartItems.length === 0) {
+      this.toastService.error('Your cart is empty.');
+      return;
+    }
+
     this.showCheckoutModal = true;
   }
 
@@ -92,33 +99,34 @@ export class Products {
     try {
       const currentUser = this.auth.getCurrentUser();
       if (!currentUser) {
+        this.showCheckoutModal = false;
         this.toastService.error('You must be logged in to place an order.');
         return;
       }
+
       const cartItems = await firstValueFrom(this.cart.cart$);
 
       if (cartItems.length === 0) {
+        this.showCheckoutModal = false;
         this.toastService.error('Your cart is empty.');
         return;
       }
 
+      const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
       const order = {
         userEmail: currentUser.email,
-        total: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
+        total,
         createdAt: new Date().toISOString(),
       };
 
       await this.orderService.createOrder(order);
 
       this.cart.clearCart();
-
-      this.toastService.success('Order placed successfully!');
-
       this.showCheckoutModal = false;
-      
       this.drawerOpen = false;
-    } 
-    catch (error) {
+
+      this.toastService.success(`Order placed successfully! Total: $${total}`);
+    } catch (error) {
       console.error('Error placing order:', error);
       this.toastService.error('Failed to place order. Please try again.');
     }

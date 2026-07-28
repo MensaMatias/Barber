@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user/user';
-import { ToastService } from './toast.service';
 import { supabase } from './supabase';
 
 @Injectable({
@@ -8,59 +7,72 @@ import { supabase } from './supabase';
 })
 export class Auth {
   private currentUserKey = 'currentUser';
-  
-
-  constructor(private toastService: ToastService) {
-  }
 
   async register(user: User): Promise<void> {
-      const { data: existingUser } = await supabase
+    const { data: existingUser, error: lookupError } = await supabase
       .from('users')
-      .select('*')
+      .select('id')
       .eq('email', user.email)
-      .single();
-      
+      .maybeSingle();
+
+    if (lookupError && lookupError.code !== 'PGRST116') {
+      throw new Error('Unable to check the account right now.');
+    }
+
     if (existingUser) {
       throw new Error('User already exists');
     }
 
     const { error } = await supabase
       .from('users')
-      .insert([{name: user.name, email: user.email, password: user.password, role: user.role ?? 'customer'}]);
+      .insert([{ name: user.name, email: user.email, password: user.password, role: user.role ?? 'customer' }]);
 
     if (error) {
       throw new Error('Error registering user');
-    } else {
-      this.toastService.success('User registered successfully');
     }
   }
 
   async login(email: string, password: string): Promise<void> {
-   const { data:user, error } = await supabase
+    const { data, error } = await supabase
       .from('users')
       .select('*')
       .eq('email', email)
       .eq('password', password)
-      .single();
-      
-    if (error || !user) {
+      .maybeSingle();
+
+    if (error && error.code !== 'PGRST116') {
+      throw new Error('Unable to log in right now.');
+    }
+
+    if (!data) {
       throw new Error('Invalid email or password');
     }
 
-    localStorage.setItem(this.currentUserKey, JSON.stringify(user));
+    localStorage.setItem(this.currentUserKey, JSON.stringify(data));
   }
 
   logout(): void {
-    localStorage.removeItem(this.currentUserKey); 
+    localStorage.removeItem(this.currentUserKey);
   }
 
   isLoggedIn(): boolean {
-    return localStorage.getItem(this.currentUserKey) !== null;
+    return this.getCurrentUser() !== null;
   }
-  
+
   getCurrentUser(): User | null {
-    const user = localStorage.getItem(this.currentUserKey);
-    return user ? JSON.parse(user) : null;
+    try {
+      const user = localStorage.getItem(this.currentUserKey);
+      if (!user) {
+        return null;
+      }
+
+      const parsedUser = JSON.parse(user) as User;
+      return parsedUser && typeof parsedUser === 'object' ? parsedUser : null;
+    } catch (error) {
+      console.error('Error reading current user from storage:', error);
+      this.logout();
+      return null;
+    }
   }
 
   isAdmin(): boolean {
@@ -75,7 +87,7 @@ export class Auth {
       console.error('Error fetching users:', error);
       return [];
     }
-    
+
     return data as User[];
   }
 }

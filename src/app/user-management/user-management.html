@@ -1,18 +1,35 @@
 <section class="admin-card">
-        <h2>Users</h2>
-        <div class="users-grid">
-            @for (user of users; track user.email) {
-                <div class="user-card">
-                    <h3>{{ user.name }}</h3>
-                    <p>{{ user.email }}</p>
-                    <span class="user-role">
-                        {{ user.role }}
-                    </span>
-                </div>
-            } @empty {
-                <div class="empty-state">
-                    No users found
-                </div>
-            }
+  <div class="card-header">
+    <div>
+      <h2>Users</h2>
+    </div>
+    <span class="users-count">{{ users.length }} {{ users.length === 1 ? 'user' : 'users' }}</span>
+  </div>
+
+  @if (isLoading) {
+    <div class="state-card loading-state">
+      <p>Loading users...</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="state-card error-state">
+      <p>{{ errorMessage }}</p>
+    </div>
+  } @else {
+    <div class="users-grid">
+      @for (user of users; track user.email) {
+        <article class="user-card">
+          <div class="user-card__top">
+            <div class="avatar">{{ user.name.charAt(0).toUpperCase() }}</div>
+            <span class="user-role" [class.admin-role]="user.role === 'admin'">{{ user.role === 'admin' ? 'Admin' : 'Cliente' }}</span>
+          </div>
+          <h3>{{ user.name }}</h3>
+          <p>{{ user.email }}</p>
+        </article>
+      } @empty {
+        <div class="empty-state">
+          <p>No users found</p>
         </div>
-    </section>
+      }
+    </div>
+  }
+</section>

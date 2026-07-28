@@ -33,7 +33,6 @@ section{
 .about-hero {
 	background: linear-gradient(180deg, #1f1c1a 0%, #141210 100%);
 	padding: 5rem 0 4rem;
-	/*animation: fade-up 800ms ease 120ms forwards;*/
 }
 
 .hero-grid {
@@ -86,7 +85,6 @@ section{
 .about-section {
 	padding: 4rem 0;
 	background: #181513;
-	/*animation: fade-up 800ms ease 120ms forwards;*/
 }
 
 .about-section.story {
