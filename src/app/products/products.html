@@ -79,7 +79,28 @@
         <span>Total</span>
         <span>${{ cartTotal$ | async }}</span>
       </div>
-      <button class="drawer-checkout">Checkout</button>
+      <button class="drawer-checkout" (click)="checkout()">Checkout</button>
     </div>
   </div>
 </div>
+
+@if(showCheckoutModal){
+  <div class="modal-overlay">
+    <div class="checkout-modal">
+      <h2>Confirm Order</h2>
+      <p> Total Items: {{ cartCount$ | async }} </p>
+      <p> Total: ${{ cartTotal$ | async }} </p>
+
+      <div class="modal-actions">
+
+        <button class="save-btn" (click)="confirmOrder()">
+          Confirm
+        </button>
+
+        <button class="cancel-btn" (click)="showCheckoutModal = false">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -5,6 +5,10 @@ import {Cart} from "../services/cart";
 import {map} from "rxjs/operators"; 
 import {Product} from "../models/products/product";
 import {ProductService} from "../services/product.service";
+import { OrderService } from '../services/order.service';
+import { Auth } from '../services/auth';
+import { firstValueFrom } from 'rxjs';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-products',
@@ -18,6 +22,9 @@ export class Products {
   private cart = inject(Cart);
   private productService = inject(ProductService);
   private cdr = inject(ChangeDetectorRef);
+  private orderService = inject(OrderService);
+  private auth = inject(Auth);
+  private toastService = inject(ToastService);
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
@@ -30,6 +37,8 @@ export class Products {
   cart$ = this.cart.cart$;
   cartCount$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.quantity, 0)));
   cartTotal$ = this.cart$.pipe(map(items => items.reduce((acc, item) => acc + item.price * item.quantity, 0)));
+
+  showCheckoutModal = false;
 
   async ngOnInit(): Promise<void> {
     try {
@@ -73,6 +82,46 @@ export class Products {
 
   increaseQuantity(id: number): void {
     this.cart.increaseQuantity(id);
+  }
+
+  async checkout(): Promise<void> {
+    this.showCheckoutModal = true;
+  }
+
+  async confirmOrder(): Promise<void> {
+    try {
+      const currentUser = this.auth.getCurrentUser();
+      if (!currentUser) {
+        this.toastService.error('You must be logged in to place an order.');
+        return;
+      }
+      const cartItems = await firstValueFrom(this.cart.cart$);
+
+      if (cartItems.length === 0) {
+        this.toastService.error('Your cart is empty.');
+        return;
+      }
+
+      const order = {
+        userEmail: currentUser.email,
+        total: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
+        createdAt: new Date().toISOString(),
+      };
+
+      await this.orderService.createOrder(order);
+
+      this.cart.clearCart();
+
+      this.toastService.success('Order placed successfully!');
+
+      this.showCheckoutModal = false;
+      
+      this.drawerOpen = false;
+    } 
+    catch (error) {
+      console.error('Error placing order:', error);
+      this.toastService.error('Failed to place order. Please try again.');
+    }
   }
 }
 

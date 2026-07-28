@@ -385,6 +385,77 @@
 
 .drawer-checkout:hover { background: #a85f2e; }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 14, 10, 0.74);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+}
+
+.checkout-modal {
+  width: min(100%, 420px);
+  background: #f9f3ee;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.checkout-modal h2 {
+  margin: 0;
+  color: #2a1a10;
+  font-size: 1.25rem;
+}
+
+.checkout-modal p {
+  margin: 0;
+  color: #6b4d3b;
+  font-size: 0.95rem;
+}
+
+.checkout-modal .modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.save-btn,
+.cancel-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.save-btn {
+  background: #c87941;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #a85f2e;
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background: #e8ddd5;
+  color: #5f4333;
+}
+
+.cancel-btn:hover {
+  background: #dccbbf;
+  transform: translateY(-1px);
+}
+
 .drawer-item-actions {
   display: flex;
   align-items: center;
