@@ -28,8 +28,13 @@ export class Reserve {
   unavailableTimes: string[] = [];
   isCheckingAvailability = false;
   availabilityMessage = '';
+  isBooking = false;
 
   async reserve(): Promise<void> {
+    if (this.isBooking) {
+      return;
+    }
+
     if (!this.service || !this.date || !this.time) {
       this.toast.error('Please fill in all fields');
       return;
@@ -49,32 +54,40 @@ export class Reserve {
       return;
     }
 
-    const appointment: Appointment = {
-      id: Date.now(),
-      userEmail: currentUser.email,
-      date: this.date,
-      time: this.time,
-      service: this.service,
-    };
+    this.isBooking = true;
+    this.cdr.detectChanges();
 
-    const available = await this.appointmentService.isTimeSlotAvailable(this.date, this.time);
+    try {
+      const appointment: Appointment = {
+        id: Date.now(),
+        userEmail: currentUser.email,
+        date: this.date,
+        time: this.time,
+        service: this.service,
+      };
 
-    if (!available) {
-      this.toast.error('This time slot is already booked');
-      await this.refreshAvailability();
-      return;
+      const available = await this.appointmentService.isTimeSlotAvailable(this.date, this.time);
+
+      if (!available) {
+        this.toast.error('This time slot is already booked');
+        await this.refreshAvailability();
+        return;
+      }
+
+      await this.appointmentService.addAppointment(appointment);
+      this.appointments = await this.appointmentService.getUserAppointments(currentUser.email);
+
+      this.toast.success('Appointment booked successfully');
+
+      this.service = '';
+      this.date = '';
+      this.time = '';
+      this.availabilityMessage = '';
+      this.unavailableTimes = [];
+    } finally {
+      this.isBooking = false;
+      this.cdr.detectChanges();
     }
-
-    await this.appointmentService.addAppointment(appointment);
-    this.appointments = await this.appointmentService.getUserAppointments(currentUser.email);
-
-    this.toast.success('Appointment booked successfully');
-
-    this.service = '';
-    this.date = '';
-    this.time = '';
-    this.availabilityMessage = '';
-    this.unavailableTimes = [];
   }
 
   async ngOnInit(): Promise<void> {

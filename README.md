@@ -136,7 +136,8 @@ The application uses Supabase to store users, appointments, and products. In the
 ![Products](public/assets/img/screenshots/Products.png)
 
 ### Administration panel
-![Administration](public/assets/img/screenshots/Admin.png)
+![Administration](public/assets/img/screenshots/Admin1.png)
+![Administration](public/assets/img/screenshots/Admin2.png)
 
 ## Repository
 

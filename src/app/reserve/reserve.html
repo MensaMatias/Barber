@@ -62,7 +62,9 @@
       </p>
     }
 
-    <button class="book-btn" (click)="reserve()">Book Appointment</button>
+    <button class="book-btn" (click)="reserve()" [disabled]="isBooking">
+      {{ isBooking ? 'Booking...' : 'Book Appointment' }}
+    </button>
   </div>
 
 </div>
