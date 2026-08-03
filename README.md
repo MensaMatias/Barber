@@ -1,195 +1,146 @@
 # Barber
 
-A web application developed with Angular for managing a barbershop. It allows users to register, log in, book appointments, and browse available products. It also features an administration panel for managing users and bookings.
+Barber is a modern web application built with Angular for the comprehensive management of a barbershop. It allows users to register, log in, book appointments, and explore products, while also providing an administrative panel to manage users, bookings, and catalog items.
 
-## Description
+## Overview
 
-Barber is a Single Page Application (SPA) designed for managing a modern barbershop. The system allows customers to easily book appointments and view available products, while administrators can monitor bookings and registered users.
+Barber is a Single Page Application (SPA) designed to deliver a fast and intuitive experience for both customers and administrators. The interface follows a mobile-first approach, ensuring smooth navigation on mobile devices and proper adaptation to larger screens.
 
-The project was developed using a **Mobile First** approach, ensuring a good experience on mobile devices and adapting to larger screens later.
+## Main features
 
-## Main Features
+### Authentication and user roles
+- New user registration.
+- Login with personal credentials.
+- Persistent session using local storage.
+- Role-based access: customer and administrator.
+- Route protection with guards based on user type.
 
-### Users
+### Appointment booking
+- Booking appointments for different services.
+- Validation of required fields.
+- Restriction of past dates.
+- Availability checking for time slots.
+- Prevention of duplicate bookings in the same time slot.
+- Cancellation of existing appointments.
+- Viewing of appointments for the authenticated user.
 
-* New user registration.
+### Product catalog
+- Display of available products.
+- Product search.
+- Filtering by category.
+- Responsive design for different screen sizes.
 
-* Login.
+### Admin panel
+- Exclusive access for administrators.
+- Management of registered users.
+- Management of system appointments.
+- Search appointments by email address.
+- Deletion of appointments.
+- Product management with create, edit, and delete operations.
 
-* Persistent session.
+## Technologies used
 
-* Differentiated user roles (Customer and Admin).
+- Angular 21
+- TypeScript
+- HTML5
+- CSS3
+- RxJS
+- Angular Router
+- Angular Forms
+- Supabase as database and backend
 
-* Profile management via custom authentication.
+## Project architecture
 
-### Bookings
+The project is organized into reusable modules and components:
 
-* Booking appointments for different services.
+- Components: user interfaces.
+- Services: business logic and data access.
+- Models: entity definitions for users, appointments, and products.
+- Guards: route protection based on permissions.
+- Supabase: persistent storage of application data.
 
-* Validation of required fields.
+## Project structure
 
-* Past date restriction.
-
-* Validation of available times.
-
-* Prevention of duplicate bookings.
-
-* Appointment cancellation.
-
-* Viewing of user bookings.
-
-### Products
-
-* Barber shop product catalog.
-
-* Product search.
-
-* Filtering by category.
-
-* Responsive design for mobile and desktop devices.
-
-### Administration
-
-* Exclusive administrator panel.
-
-* Viewing of all registered users.
-
-* Viewing of all bookings.
-
-* Search for bookings by email address.
-
-* Booking deletion.
-
-
-## Technologies Used
-
-* Angular 21
-* TypeScript
-* HTML5
-* CSS3
-* Supabase
-* RxJS
-* Angular Router
-* Angular Forms (Reactive Forms and Template Forms)
-
-## Project Architecture
-
-The project is organized using Angular components and services:
-
-* Components: user interface.
-
-* Services: business logic and data access.
-
-* Models: entity definition.
-
-* Guards: path protection based on permissions.
-
-* Supabase: data storage and persistence.
-
-##Database
-
-The application uses Supabase as a backend to store:
-
-### Users
-
-* ID
-* Name
-* Email
-* Password
-* Role
-
-### Reservations
-
-* ID
-* Username/Email
-* Date
-* Time
-* Service
-
-## Seguridad
-
-La aplicación utiliza Supabase como base de datos.
-
-Se implementó Row Level Security (RLS) para proteger el acceso mediante la API pública de Supabase.
+```text
+src/
+  app/
+    admin/
+    appointments-management/
+    auth/
+    guards/
+    home/
+    models/
+    navbar/
+    product-management/
+    products/
+    reserve/
+    services/
+    shared/
+    user-management/
+```
 
 ## Installation
 
-Clone the repository:
+1. Clone the repository:
 
-```Tap:
-`Clone git https://github.com/MensaMatias/Barber.git
+```bash
+git clone https://github.com/MensaMatias/Barber.git
 ```
 
-Next to the directory:
+2. Enter the project directory:
 
-```Tap:
-`cd barbero
+```bash
+cd Barber
 ```
 
-Install dependencies:
+3. Install dependencies:
 
-```Tap:
-`install npm
+```bash
+npm install
 ```
 
-Run the project:
+4. Run the application:
 
-```Tap:
-`server
+```bash
+npm start
 ```
 
-Open in the browser:
+5. Open the browser at:
 
-```text:
-`http://localhost:4200
+```text
+http://localhost:4200
 ```
 
-## Implemented features
+## Supabase configuration
 
-* Authentication system.
+The application uses Supabase to store users, appointments, and products. In the current project, the connection is configured directly in the corresponding service file. For a production environment, it is recommended to move the credentials to environment variables.
 
-* User roles.
+## Security
 
-* Appointment booking.
+- Access control is implemented through guards to protect sensitive routes.
+- The application uses Supabase as its persistence layer.
+- Administrative operations are restricted to users with an administrator role.
 
-* Appointment cancellation.
+## Screenshots
 
-* Administrative panel.
+### Home
+![Home](public/assets/img/screenshots/Home.png)
 
-* User management.
+### About
+![About](public/assets/img/screenshots/About.png)
 
-* Appointment management.
+### Appointment management
+![Reservations](public/assets/img/screenshots/Reserve.png)
 
-* Integration with Supabase.
+### Product catalog
+![Products](public/assets/img/screenshots/Products.png)
 
-* Mobile-first responsive design.
-
-* Notifications via Brindis.
-
-* Product catalog.
+### Administration panel
+![Administration](public/assets/img/screenshots/Admin.png)
 
 ## Repository
 
-GitHub:
-
-https://github.com/MensaMatias/Barber
-
-## 📸 Screenshots
-
-### Home page
-![Home](/public/assets/img/screenshots/Home.png)
-
-### About
-![About](/public/assets/img/screenshots/About.png)
-
-### Shift management
-![Reserve](/public/assets/img/screenshots/Reserve.png)
-
-### Product catalog
-![Products](/public/assets/img/screenshots/Products.png)
-
-### Administration Panel
-![Admin](/public/assets/img/screenshots/Admin.png)
+- GitHub: https://github.com/MensaMatias/Barber
 
 ## Author
 
