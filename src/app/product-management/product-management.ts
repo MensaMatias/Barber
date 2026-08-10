@@ -45,7 +45,7 @@ export class ProductManagement {
 
     imageurl: ['', [
       Validators.required,
-      Validators.pattern(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))$/)
+      Validators.pattern(/^(https?:\/\/.+\.(?:png|jpe?g|gif|svg)|\/.+\.(?:png|jpe?g|gif|svg))$/)
     ]],
 
     badge: [''],
