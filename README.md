@@ -113,13 +113,44 @@ http://localhost:4200
 
 ## Supabase configuration
 
-The application uses Supabase to store users, appointments, and products. In the current project, the connection is configured directly in the corresponding service file. For a production environment, it is recommended to move the credentials to environment variables.
+The application uses Supabase to store users, appointments, and products.
+
+Environment files are located in `src/app/environments/`:
+
+- `environment.ts` and `environment.production.ts` are tracked and contain placeholders only.
+- `environment.local.ts` contains local development values and is ignored by Git.
+
+### Local setup (required)
+
+1. Create `src/app/environments/environment.local.ts` with your Supabase values:
+
+```ts
+export const environment = {
+  production: false,
+  supabaseUrl: 'YOUR_SUPABASE_URL',
+  supabasePublishableKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY',
+};
+```
+
+2. Run the app in development mode:
+
+```bash
+npm start
+```
+
+In development, Angular replaces `environment.ts` with `environment.local.ts`.
+
+### Production setup
+
+Before building for production, set real values in `environment.production.ts` (or adapt your CI/CD pipeline to inject them).
 
 ## Security
 
 - Access control is implemented through guards to protect sensitive routes.
 - The application uses Supabase as its persistence layer.
 - Administrative operations are restricted to users with an administrator role.
+- `environment.local.ts` is ignored by Git to avoid committing local credentials.
+- Never use a Supabase `service_role` key in the frontend.
 
 ## Screenshots
 

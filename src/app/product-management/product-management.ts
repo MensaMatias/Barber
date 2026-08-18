@@ -181,7 +181,7 @@ export class ProductManagement {
     }
 
     if (control.errors['required']) {
-      return 'This field is required.';
+      return 'This field is required.'
     }
 
     if (control.errors['minlength']) {
